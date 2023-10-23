@@ -6,17 +6,17 @@ public class CreditAccount extends Account {
     private LocalDate startDate;
     private LocalDate endDate;
     private int numMonths;
-    private int creditAmount;
-    private int monthlyPayment;
-    private int interestRate;
+    private double creditAmount;
+    private double monthlyPayment;
+    private double interestRate;
     private Employee bankEmployee;
     private PaymentAccount paymentAccount;
 
-    public CreditAccount(Client client, Bank bank, LocalDate startDate, LocalDate endDate, int numMonth, int creditAmount, int monthlyPayment, int interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
-        super(client, bank);
+    public CreditAccount(User user, Bank bank, LocalDate startDate, LocalDate endDate, int numMonths, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
+        super(user, bank);
         this.startDate = startDate;
         this.endDate = endDate;
-        this.numMonths = numMonth;
+        this.numMonths = numMonths;
         this.creditAmount = creditAmount;
         this.monthlyPayment = monthlyPayment;
         this.interestRate = interestRate;
@@ -24,31 +24,35 @@ public class CreditAccount extends Account {
         this.paymentAccount = paymentAccount;
     }
 
+    public CreditAccount(CreditAccount account) {
+        this(account.user, account.bank, account.startDate, account.endDate, account.numMonths, account.creditAmount, account.monthlyPayment, account.interestRate, account.bankEmployee, account.paymentAccount);
+    }
+
     @Override
     public String toString() {
         return "Информация о кредитном счете" + "\n" +
                 "id: " + id + "\n" +
-                "Пользователь, за которым закреплен этот кредитный счет: " + client.getFcs() + "\n" +
-                "Название банка, где взят кредит: " + bank.getName() + "\n" +
+                "Пользователь,: " + user.getFcs() + "\n" +
+                "Банк: " + bank.getName() + "\n" +
                 "Дата начала кредита: " + startDate + "\n" +
                 "Дата окончания кредита: " + endDate + "\n" +
-                "Кол-во месяцев, на которые взят кредит: " + numMonths + "\n" +
-                "Сумма кредита: " + creditAmount + "\n" +
-                "Ежемесячный платеж " + monthlyPayment + "\n" +
-                "Процентная ставка: " + interestRate + "\n" +
+                "Кол-во месяцев кредита: " + numMonths + "\n" +
+                "Сумма кредита: " + String.format("%.2f",creditAmount) + "\n" +
+                "Ежемесячный платеж " + String.format("%.2f", monthlyPayment) + "\n" +
+                "Процентная ставка: " + String.format("%.2f", interestRate) + "\n" +
                 "Сотрудник, который выдал кредит: " + bankEmployee.getFcs() + "\n" +
-                "Платежный счет в банке: " + paymentAccount.getId() + " " + paymentAccount.getBank().getName() + "\n";
+                "Платежный счет в банке: " + paymentAccount.getId() + " " + paymentAccount.getBank().getName() + "\n\n";
     }
 
-    public int getCreditAmount() {
+    public double getCreditAmount() {
         return creditAmount;
     }
 
-    public void setCreditAmount(int creditAmount) {
+    public void setCreditAmount(double creditAmount) {
         this.creditAmount = creditAmount;
     }
 
-    public int getInterestRate() {
+    public double getInterestRate() {
         return interestRate;
     }
 
@@ -72,7 +76,7 @@ public class CreditAccount extends Account {
         this.bankEmployee = bankEmployee;
     }
 
-    public int getMonthlyPayment() {
+    public double getMonthlyPayment() {
         return monthlyPayment;
     }
 

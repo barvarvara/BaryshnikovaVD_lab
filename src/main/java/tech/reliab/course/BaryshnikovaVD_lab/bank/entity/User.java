@@ -3,13 +3,13 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Client extends Human {
+public class User extends Human {
     private String workplace;
-    private int monthlyIncome;
+    private double monthlyIncome;
     private Bank bank;
     private int bankCreditRating;
 
-    public Client() {
+    public User() {
         super();
         monthlyIncome = 0;
         bankCreditRating = 0;
@@ -17,7 +17,7 @@ public class Client extends Human {
         bank = null;
     }
 
-    public Client(String fcs, LocalDate birthday, String workplace, Bank bank, int monthlyIncome, int bankCreditRating) {
+    public User(String fcs, LocalDate birthday, String workplace, Bank bank, double monthlyIncome, int bankCreditRating) {
         super(fcs, birthday);
         this.workplace = workplace;
         this.bank = bank;
@@ -25,16 +25,20 @@ public class Client extends Human {
         this.bankCreditRating = bankCreditRating;
     }
 
+    public User(User user) {
+        this(user.fcs, user.birthday, user.workplace, user.bank, user.monthlyIncome, user.bankCreditRating);
+    }
+
     @Override
     public String toString() {
-        return "Информация о клиенте банка " +
+        return "Информация о клиенте банка " + "\n" +
                 "id: " + id + "\n" +
                 "ФИО: " + fcs + '\n' +
                 "День рождения: " + birthday.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + '\n' +
                 "Место работы: " + workplace + '\n' +
-                "Ежемесячный доход: " + monthlyIncome + '\n' +
-                "Банк, которым он пользуется: " + bank + '\n' +
-                "Кредитный рейтинг для банка: " + bankCreditRating + '\n';
+                "Ежемесячный доход: " + String.format("%.2f", monthlyIncome) + '\n' +
+                "Банк, которым он пользуется: " + bank.getName() + '\n' +
+                "Кредитный рейтинг для банка: " + bankCreditRating + "\n\n";
     }
 
     public Bank getBank() {
@@ -53,11 +57,11 @@ public class Client extends Human {
         this.bankCreditRating = bankCreditRating;
     }
 
-    public int getMonthlyIncome() {
+    public double getMonthlyIncome() {
         return monthlyIncome;
     }
 
-    public void setMonthlyIncome(int monthlyIncome) {
+    public void setMonthlyIncome(double monthlyIncome) {
         this.monthlyIncome = monthlyIncome;
     }
 

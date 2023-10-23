@@ -4,19 +4,19 @@ import java.util.UUID;
 
 public class Account {
     protected int id;
-    protected Client client;
+    protected User user;
     protected Bank bank;
 
     public Account() {
         id = Math.abs(UUID.randomUUID().hashCode());
-        client = null;
+        user = null;
         bank = null;
     }
 
-    public Account(Client client, Bank bank) {
+    public Account(User user, Bank bank) {
         this();
         this.bank = bank;
-        this.client = client;
+        this.user = user;
     }
 
     public int getId() {
@@ -35,12 +35,12 @@ public class Account {
         this.bank = bank;
     }
 
-    public Client getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 

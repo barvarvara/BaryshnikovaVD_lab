@@ -1,28 +1,34 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.JobName;
+
 import java.time.LocalDate;
 
 public class Employee extends Human {
-    private String jobName;
+    private JobName jobName;
     private Bank bank;
     private boolean isWorkingAtHome;
     private BankOffice bankOffice;
-    private boolean canTakeCredit;
+    private boolean canWithdrawCredit;
     private double salaryAmount;
 
-    public Employee(String fcs, LocalDate birthday, String jobName, Bank bank, boolean isWorkingAtHome, boolean canTakeCredit, double salaryAmount) {
+    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, boolean canWithdrawCredit, double salaryAmount) {
         super(fcs, birthday);
         this.jobName = jobName;
         this.bank = bank;
         this.isWorkingAtHome = isWorkingAtHome;
-        this.canTakeCredit = canTakeCredit;
+        this.canWithdrawCredit = canWithdrawCredit;
         this.salaryAmount = salaryAmount;
         this.bankOffice = null;
     }
 
-    public Employee(String fcs, LocalDate birthday, String jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canTakeCredit, double salaryAmount) {
+    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canTakeCredit, double salaryAmount) {
         this(fcs, birthday, jobName, bank, isWorkingAtHome, canTakeCredit, salaryAmount);
         this.bankOffice = bankOffice;
+    }
+
+    public Employee(Employee employee) {
+        this(employee.fcs, employee.birthday, employee.jobName, employee.bank, employee.isWorkingAtHome, employee.bankOffice, employee.canWithdrawCredit, employee.salaryAmount);
     }
 
     @Override
@@ -31,12 +37,12 @@ public class Employee extends Human {
                 "id: " + id + "\n" +
                 "ФИО: " + fcs + "\n" +
                 "Дата рождения: " + birthday + "\n" +
-                "Должность: " + jobName + "\n" +
+                "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" : "консультант") + "\n" +
                 "В каком банке работает: " + bank.getName() + "\n" +
                 "Работает: " + (isWorkingAtHome ? "удаленно" : "в банковском офисе") + "\n" +
-                "Банковский офис, в котором работает: " + bankOffice.getId() + " " + bankOffice.getName() + "\n" +
-                "Может ли выдавать кредиты? " + (canTakeCredit ? "да" : "нет") + "\n" +
-                "Размер зарплаты: " + salaryAmount + "\n";
+                "Банковский офис, в котором работает: " + (bankOffice != null ? (bankOffice.getId() + " " + bankOffice.getName()): "сотрудник не прикреплен к офису банка") + "\n" +
+                "Может ли выдавать кредиты? " + (canWithdrawCredit ? "да" : "нет") + "\n" +
+                "Размер зарплаты: " + String.format("%.2f", salaryAmount) + "\n\n";
     }
 
     public BankOffice getBankOffice() {
@@ -63,20 +69,20 @@ public class Employee extends Human {
         this.salaryAmount = salaryAmount;
     }
 
-    public String getJobName() {
+    public JobName getJobName() {
         return jobName;
     }
 
-    public void setJobName(String jobName) {
+    public void setJobName(JobName jobName) {
         this.jobName = jobName;
     }
 
-    public boolean isCanTakeCredit() {
-        return canTakeCredit;
+    public boolean isCanWithdrawCredit() {
+        return canWithdrawCredit;
     }
 
-    public void setCanTakeCredit(boolean canTakeCredit) {
-        this.canTakeCredit = canTakeCredit;
+    public void setCanWithdrawCredit(boolean canTakeCredit) {
+        this.canWithdrawCredit = canTakeCredit;
     }
 
     public boolean isWorkingAtHome() {

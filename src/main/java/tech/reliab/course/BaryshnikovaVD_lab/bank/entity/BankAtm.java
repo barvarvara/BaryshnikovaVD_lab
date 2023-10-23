@@ -12,27 +12,27 @@ public class BankAtm {
     private Bank bank;
     private BankOffice bankOffice;
     private Employee employee;
-    private boolean isCashWithdrawAvailable;
-    private boolean isDepositCashAvailable;
-    private double numMoney;
+    private boolean isMoneyWithdrawAvailable;
+    private boolean isDepositMoneyAvailable;
+    private double moneyAmount;
     private double atmServicePrice;
 
-    public BankAtm(String name, BankAtmStatus status, Bank bank, BankOffice location, String address, Employee employee, boolean isCashWithdrawAvailable, boolean isDepositCashAvailable, double atmServicePrice, double numMoney) {
+    public BankAtm(String name, BankAtmStatus status, Bank bank, BankOffice bankOffice, Employee employee, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double atmServicePrice, double moneyAmount) {
         id = Math.abs(UUID.randomUUID().hashCode());
         this.name = name;
-        this.bankOffice = location;
-        this.address = address;
+        this.bankOffice = bankOffice;
+        this.address = bankOffice.getAddress();
         this.status = status;
         this.bank = bank;
         this.employee = employee;
-        this.numMoney = numMoney;
-        this.isCashWithdrawAvailable = isCashWithdrawAvailable;
-        this.isDepositCashAvailable = isDepositCashAvailable;
+        this.moneyAmount = moneyAmount;
+        this.isMoneyWithdrawAvailable = isMoneyWithdrawAvailable;
+        this.isDepositMoneyAvailable = isDepositMoneyAvailable;
         this.atmServicePrice = atmServicePrice;
     }
 
     public BankAtm(BankAtm bankAtm) {
-        this(bankAtm.name, bankAtm.status, bankAtm.bank, bankAtm.bankOffice, bankAtm.address, bankAtm.employee, bankAtm.isCashWithdrawAvailable, bankAtm.isDepositCashAvailable, bankAtm.atmServicePrice, bankAtm.numMoney);
+        this(bankAtm.name, bankAtm.status, bankAtm.bank, bankAtm.bankOffice, bankAtm.employee, bankAtm.isMoneyWithdrawAvailable, bankAtm.isDepositMoneyAvailable, bankAtm.atmServicePrice, bankAtm.moneyAmount);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class BankAtm {
                 "Банк, которому принадлежит банкомат: " + bank.getName() + "\n" +
                 "Расположение банкомата: " + bankOffice.getName() + " " + bankOffice.getAddress() + "\n" +
                 "Обслуживающий сотрудник: " + employee.getFcs() + "\n" +
-                "Работает ли на выдачу денег? " + (isCashWithdrawAvailable ? "да" : "нет") + "\n" +
-                "Можно ли внести деньги?: " + (isDepositCashAvailable ? "да" : "нет") + "\n" +
-                "Кол-во денег в банкомате: " + String.format("%.2f", numMoney) + "\n" +
-                "Стоимость обслуживания банкомата: " + String.format("%.2f", atmServicePrice) + "\n";
+                "Работает ли на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
+                "Можно ли внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
+                "Кол-во денег в банкомате: " + String.format("%.2f", moneyAmount) + "\n" +
+                "Стоимость обслуживания банкомата: " + String.format("%.2f", atmServicePrice) + "\n\n";
     }
 
     public int getId() {
@@ -115,27 +115,27 @@ public class BankAtm {
         this.atmServicePrice = atmServicePrice;
     }
 
-    public double getNumMoney() {
-        return numMoney;
+    public double getMoneyAmount() {
+        return moneyAmount;
     }
 
-    public void setNumMoney(double numMoney) {
-        this.numMoney = numMoney;
+    public void setMoneyAmount(double moneyAmount) {
+        this.moneyAmount = moneyAmount;
     }
 
-    public boolean isCashWithdrawAvailable() {
-        return isCashWithdrawAvailable;
+    public boolean isMoneyWithdrawAvailable() {
+        return isMoneyWithdrawAvailable;
     }
 
-    public void setCashWithdrawAvailable(boolean cashWithdrawAvailable) {
-        isCashWithdrawAvailable = cashWithdrawAvailable;
+    public void setMoneyWithdrawAvailable(boolean cashWithdrawAvailable) {
+        isMoneyWithdrawAvailable = cashWithdrawAvailable;
     }
 
-    public boolean isDepositCashAvailable() {
-        return isDepositCashAvailable;
+    public boolean isDepositMoneyAvailable() {
+        return isDepositMoneyAvailable;
     }
 
-    public void setDepositCashAvailable(boolean depositCashAvailable) {
-        isDepositCashAvailable = depositCashAvailable;
+    public void setDepositMoneyAvailable(boolean depositCashAvailable) {
+        isDepositMoneyAvailable = depositCashAvailable;
     }
 }

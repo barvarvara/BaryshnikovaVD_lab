@@ -1,32 +1,36 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
 public class PaymentAccount extends Account {
-    private int balance;
+    private double balance;
 
-    public PaymentAccount(Client client, Bank bank) {
-        super(client, bank);
+    public PaymentAccount(User user, Bank bank) {
+        super(user, bank);
         balance = 0;
     }
 
-    public PaymentAccount(Client client, Bank bank, int balance) {
-        this(client, bank);
+    public PaymentAccount(User user, Bank bank, double balance) {
+        this(user, bank);
         this.balance = balance;
+    }
+
+    public PaymentAccount(PaymentAccount paymentAccount) {
+        this(paymentAccount.user, paymentAccount.bank, paymentAccount.balance);
     }
 
     @Override
     public String toString() {
         return "Информация о платежном счете" + "\n" +
                 "id: " + id + "\n" +
-                "Пользователь, за которым закреплен этот платежный счет: " + client.getId() + " " + client.getFcs() + "\n" +
-                "Название банка, в котором открыт этот счет: " + bank.getName() + "\n" +
-                "Сумма, которая лежит в данный момент на счету: " + balance + "\n";
+                "Пользователь: " + user.getId() + " " + user.getFcs() + "\n" +
+                "Название банка: " + bank.getName() + "\n" +
+                "Сумма на счету: " + String.format("%.2f", balance) + "\n\n";
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 }
