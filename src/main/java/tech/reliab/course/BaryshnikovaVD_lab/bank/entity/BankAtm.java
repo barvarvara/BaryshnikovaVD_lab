@@ -42,13 +42,13 @@ public class BankAtm {
                 "Название: " + name + "\n" +
                 "Адрес: " + address + "\n" +
                 "Статус: " + (status == BankAtmStatus.WORK ? "работает" : (status == BankAtmStatus.DOESNT_WORK ? "не работает" : "нет денег")) + "\n" +
-                "Банк, которому принадлежит банкомат: " + bank.getName() + "\n" +
+                "Банк: " + bank.getName() + "\n" +
                 "Расположение банкомата: " + bankOffice.getName() + " " + bankOffice.getAddress() + "\n" +
                 "Обслуживающий сотрудник: " + employee.getFcs() + "\n" +
-                "Работает ли на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
-                "Можно ли внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
+                "Работает на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
+                "Можно внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
                 "Кол-во денег в банкомате: " + String.format("%.2f", moneyAmount) + "\n" +
-                "Стоимость обслуживания банкомата: " + String.format("%.2f", atmServicePrice) + "\n\n";
+                "Стоимость обслуживания: " + String.format("%.2f", atmServicePrice) + "\n\n";
     }
 
     public int getId() {

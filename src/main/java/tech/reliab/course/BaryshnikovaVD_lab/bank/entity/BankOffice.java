@@ -43,13 +43,13 @@ public class BankOffice {
                 "Адрес: " + address + "\n" +
                 "Банк: " + bank.getName() + "\n" +
                 "Статус: " + (isWorking ? "работает" : "не работает") + "\n" +
-                "Можно ли разместить банкомат? " + (isPossibleToPlaceAtm ? "да" : "нет") + "\n" +
-                "Кол-во банкоматов в данном офисе: " + numAtm + "\n" +
-                "Можно ли оформить кредит в данном офисе? " + (isCreditAvailable ? "да" : "нет") + "\n" +
-                "Работает ли на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
-                "Можно ли внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
-                "Кол-во денег в банковском офисе: " + String.format("%.2f", moneyAmount) + "\n" +
-                "Стоимость аренды банковского офиса: " + String.format("%.2f", rentPrice) + "\n\n";
+                "Можно разместить банкомат? " + (isPossibleToPlaceAtm ? "да" : "нет") + "\n" +
+                "Кол-во банкоматов: " + numAtm + "\n" +
+                "Можно оформить кредит? " + (isCreditAvailable ? "да" : "нет") + "\n" +
+                "Работает на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
+                "Можно внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
+                "Кол-во денег: " + String.format("%.2f", moneyAmount) + "\n" +
+                "Стоимость аренды: " + String.format("%.2f", rentPrice) + "\n\n";
     }
 
 

@@ -40,8 +40,8 @@ public class Employee extends Human {
                 "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" : "консультант") + "\n" +
                 "В каком банке работает: " + bank.getName() + "\n" +
                 "Работает: " + (isWorkingAtHome ? "удаленно" : "в банковском офисе") + "\n" +
-                "Банковский офис, в котором работает: " + (bankOffice != null ? (bankOffice.getId() + " " + bankOffice.getName()): "сотрудник не прикреплен к офису банка") + "\n" +
-                "Может ли выдавать кредиты? " + (canWithdrawCredit ? "да" : "нет") + "\n" +
+                "Банковский офис: " + (bankOffice != null ? (bankOffice.getId() + " " + bankOffice.getName()): "сотрудник не прикреплен к офису банка") + "\n" +
+                "Может выдавать кредиты? " + (canWithdrawCredit ? "да" : "нет") + "\n" +
                 "Размер зарплаты: " + String.format("%.2f", salaryAmount) + "\n\n";
     }
 
