@@ -1,4 +1,4 @@
-package utils;
+package tech.reliab.course.BaryshnikovaVD_lab.bank.utils;
 
 public final class Constants {
     private Constants() { }

@@ -6,23 +6,23 @@ import java.util.UUID;
  */
 public class Bank {
 
-    /** Поле айди */
+    /** Поле id */
     private int id;
 
     /** Название банка */
     private String name;
 
     /** Кол-во банкоматов */
-    private int numAtm;
+    private int atmCount;
 
     /** Кол-во офисов */
-    private int numOffices;
+    private int officesCount;
 
     /** Кол-во сотрудников */
-    private int numEmployee;
+    private int employeeCount;
 
     /** Кол-во клиентов */
-    private int numUsers;
+    private int usersCount;
 
     /** Рейтинг банка */
     private int rating;
@@ -38,10 +38,10 @@ public class Bank {
     public Bank(String name) {
         id = Math.abs(UUID.randomUUID().hashCode());
         this.name = name;
-        numOffices = 0;
-        numAtm = 0;
-        numEmployee = 0;
-        numUsers = 0;
+        officesCount = 0;
+        atmCount = 0;
+        employeeCount = 0;
+        usersCount = 0;
         rating = 0;
         totalAmountMoney = 0;
         interestRate = 0;
@@ -49,24 +49,24 @@ public class Bank {
 
     /** Конструктор класса Банк
      * @param name Название банка
-     * @param numAtm Кол-во банкоматов
-     * @param numOffices Кол-во офисов
-     * @param numEmployee Кол-во сотрудников
-     * @param numUsers Кол-во клиентов
+     * @param atmCount Кол-во банкоматов
+     * @param officesCount Кол-во офисов
+     * @param employeeCount Кол-во сотрудников
+     * @param usersCount Кол-во клиентов
      * */
-    public Bank(String name, int numAtm, int numOffices, int numEmployee, int numUsers) {
+    public Bank(String name, int atmCount, int officesCount, int employeeCount, int usersCount) {
         this(name);
-        this.numOffices = numOffices;
-        this.numAtm = numAtm;
-        this.numEmployee = numEmployee;
-        this.numUsers = numUsers;
+        this.officesCount = officesCount;
+        this.atmCount = atmCount;
+        this.employeeCount = employeeCount;
+        this.usersCount = usersCount;
     }
 
     /** Конструктор копирования класса Банк
      * @param bank Банк, информация из которого копируется в создаваемый банк
      * */
     public Bank(Bank bank) {
-        this(bank.name, bank.numAtm, bank.numOffices, bank.numEmployee, bank.numUsers);
+        this(bank.name, bank.atmCount, bank.officesCount, bank.employeeCount, bank.usersCount);
     }
 
     /** Переопределенный метод toString
@@ -77,10 +77,10 @@ public class Bank {
         return "Информация о банке" + "\n" +
                 "id: " + id + "\n" +
                 "Название: " + name + "\n" +
-                "Кол-во офисов: " + numOffices + "\n" +
-                "Кол-во банкоматов: " + numAtm + "\n" +
-                "Кол-во сотрудников: " + numEmployee + "\n" +
-                "Кол-во клиентов: " + numUsers + "\n" +
+                "Кол-во офисов: " + officesCount + "\n" +
+                "Кол-во банкоматов: " + atmCount + "\n" +
+                "Кол-во сотрудников: " + employeeCount + "\n" +
+                "Кол-во клиентов: " + usersCount + "\n" +
                 "Рейтинг банка: " + rating + "\n" +
                 "Всего денег в банке: " + String.format("%.2f", totalAmountMoney) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", interestRate) + "\n\n";
@@ -124,35 +124,35 @@ public class Bank {
         this.interestRate = interestRate;
     }
 
-    public int getNumAtm() {
-        return numAtm;
+    public int getAtmCount() {
+        return atmCount;
     }
 
-    public void setNumAtm(int numAtm) {
-        this.numAtm = numAtm;
+    public void setAtmCount(int atmCount) {
+        this.atmCount = atmCount;
     }
 
-    public int getNumUsers() {
-        return numUsers;
+    public int getUsersCount() {
+        return usersCount;
     }
 
-    public void setNumUsers(int numUsers) {
-        this.numUsers = numUsers;
+    public void setUsersCount(int usersCount) {
+        this.usersCount = usersCount;
     }
 
-    public int getNumEmployee() {
-        return numEmployee;
+    public int getEmployeeCount() {
+        return employeeCount;
     }
 
-    public void setNumEmployee(int numEmployee) {
-        this.numEmployee = numEmployee;
+    public void setEmployeeCount(int employeeCount) {
+        this.employeeCount = employeeCount;
     }
 
-    public int getNumOffices() {
-        return numOffices;
+    public int getOfficesCount() {
+        return officesCount;
     }
 
-    public void setNumOffices(int numOffices) {
-        this.numOffices = numOffices;
+    public void setOfficesCount(int officesCount) {
+        this.officesCount = officesCount;
     }
 }

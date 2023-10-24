@@ -24,7 +24,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         account.setUser(null);
         account.setStartDate(null);
         account.setEndDate(null);
-        account.setNumMonths(0);
+        account.setMonthsCount(0);
         account.setCreditAmount(0);
         account.setMonthlyPayment(0);
         account.setInterestRate(0);

@@ -8,7 +8,7 @@ public class BankOffice {
     private String address;
     private boolean isWorking;
     private boolean isPossibleToPlaceAtm;
-    private int numAtm;
+    private int atmCount;
     private boolean isCreditAvailable;
     private boolean isMoneyWithdrawAvailable;
     private boolean isDepositMoneyAvailable;
@@ -16,13 +16,13 @@ public class BankOffice {
     private double rentPrice;
     private Bank bank;
 
-    public BankOffice(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, int numAtm, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank) {
+    public BankOffice(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, int atmCount, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank) {
         id = Math.abs(UUID.randomUUID().hashCode());
         this.name = name;
         this.address = address;
         this.isWorking = isWorking;
         this.isPossibleToPlaceAtm = isPossibleToPlaceAtm;
-        this.numAtm = numAtm;
+        this.atmCount = atmCount;
         this.isCreditAvailable = isCreditAvailable;
         this.isMoneyWithdrawAvailable = isMoneyWithdrawAvailable;
         this.isDepositMoneyAvailable = isDepositMoneyAvailable;
@@ -32,7 +32,7 @@ public class BankOffice {
     }
 
     public BankOffice(BankOffice bankOffice) {
-        this(bankOffice.name, bankOffice.address, bankOffice.isWorking, bankOffice.isPossibleToPlaceAtm, bankOffice.numAtm, bankOffice.isCreditAvailable, bankOffice.isMoneyWithdrawAvailable, bankOffice.isDepositMoneyAvailable, bankOffice.moneyAmount, bankOffice.rentPrice, bankOffice.bank);
+        this(bankOffice.name, bankOffice.address, bankOffice.isWorking, bankOffice.isPossibleToPlaceAtm, bankOffice.atmCount, bankOffice.isCreditAvailable, bankOffice.isMoneyWithdrawAvailable, bankOffice.isDepositMoneyAvailable, bankOffice.moneyAmount, bankOffice.rentPrice, bankOffice.bank);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BankOffice {
                 "Банк: " + bank.getName() + "\n" +
                 "Статус: " + (isWorking ? "работает" : "не работает") + "\n" +
                 "Можно разместить банкомат? " + (isPossibleToPlaceAtm ? "да" : "нет") + "\n" +
-                "Кол-во банкоматов: " + numAtm + "\n" +
+                "Кол-во банкоматов: " + atmCount + "\n" +
                 "Можно оформить кредит? " + (isCreditAvailable ? "да" : "нет") + "\n" +
                 "Работает на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
                 "Можно внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
@@ -78,12 +78,12 @@ public class BankOffice {
         this.address = address;
     }
 
-    public int getNumAtm() {
-        return numAtm;
+    public int getAtmCount() {
+        return atmCount;
     }
 
-    public void setNumAtm(int numAtm) {
-        this.numAtm = numAtm;
+    public void setAtmCount(int atmCount) {
+        this.atmCount = atmCount;
     }
 
     public double getMoneyAmount() {

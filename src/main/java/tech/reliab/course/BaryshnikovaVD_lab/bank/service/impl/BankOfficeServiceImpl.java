@@ -21,7 +21,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
         bankOffice.setAddress("");
         bankOffice.setWorking(false);
         bankOffice.setPossibleToPlaceAtm(false);
-        bankOffice.setNumAtm(0);
+        bankOffice.setAtmCount(0);
         bankOffice.setCreditAvailable(false);
         bankOffice.setMoneyWithdrawAvailable(false);
         bankOffice.setDepositMoneyAvailable(false);
@@ -41,7 +41,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
             return false;
         }
 
-        bankOffice.setNumAtm(bankOffice.getNumAtm() + 1);
+        bankOffice.setAtmCount(bankOffice.getAtmCount() + 1);
         atm.setBankOffice(bankOffice);
         atm.setAddress(bankOffice.getAddress());
 
@@ -55,13 +55,13 @@ public class BankOfficeServiceImpl implements BankOfficeService {
             return false;
         }
 
-        int atmNum = bankOffice.getNumAtm() - 1;
-        if (atmNum < 0) {
+        int atmCount = bankOffice.getAtmCount() - 1;
+        if (atmCount < 0) {
             System.out.println("Error: невозможно убрать банкомат, потому что в офисе больше нет банкоматов");
             return false;
         }
 
-        bankOffice.setNumAtm(atmNum);
+        bankOffice.setAtmCount(atmCount);
         return true;
     }
 

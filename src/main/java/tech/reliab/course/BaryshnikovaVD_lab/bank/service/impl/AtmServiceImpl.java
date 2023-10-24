@@ -41,11 +41,11 @@ public class AtmServiceImpl implements AtmService {
             System.out.println("Error: Банкомат не работает на выдачу денег.\n\n");
         }
 
-        double newNumMoney = bankAtm.getMoneyAmount() - moneyAmount;
-        if (newNumMoney < 0) {
+        double newMoneyCount = bankAtm.getMoneyAmount() - moneyAmount;
+        if (newMoneyCount < 0) {
             System.out.println("Error: Недостаточно денег в банкомате.\n\n");
         } else {
-            bankAtm.setMoneyAmount(newNumMoney);
+            bankAtm.setMoneyAmount(newMoneyCount);
             return true;
         }
 

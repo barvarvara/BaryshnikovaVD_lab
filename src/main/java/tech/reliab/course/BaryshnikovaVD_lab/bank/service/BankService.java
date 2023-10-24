@@ -74,14 +74,4 @@ public interface BankService {
      * @return true, если получилось выдать нужную сумму, false -- в противном случае
      */
     boolean withdrawMoney(Bank bank, double moneyAmount);
-
-    /**
-     * Оформляет заявку на кредит
-     *
-     * @param bank    банк, в котором клиент хочет взять кредит
-     * @param account кредитный счет, который закреплен за клиентом
-     * @param user  клиент, который хочет взять кредит
-     * @return true, если получилось принять заявку на кредит, false -- в противном случае
-     */
-    boolean approveCredit(Bank bank, CreditAccount account, User user);
 }

@@ -3,7 +3,7 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.User;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.UserService;
 
-import static utils.Constants.MAX_MONTHLY_INCOME;
+import static tech.reliab.course.BaryshnikovaVD_lab.bank.utils.Constants.MAX_MONTHLY_INCOME;
 
 public class UserServiceImpl implements UserService {
     private int calcCreditRating(User user) {

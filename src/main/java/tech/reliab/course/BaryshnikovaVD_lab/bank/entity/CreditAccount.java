@@ -5,18 +5,18 @@ import java.time.LocalDate;
 public class CreditAccount extends Account {
     private LocalDate startDate;
     private LocalDate endDate;
-    private int numMonths;
+    private int monthsCount;
     private double creditAmount;
     private double monthlyPayment;
     private double interestRate;
     private Employee bankEmployee;
     private PaymentAccount paymentAccount;
 
-    public CreditAccount(User user, Bank bank, LocalDate startDate, LocalDate endDate, int numMonths, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
+    public CreditAccount(User user, Bank bank, LocalDate startDate, LocalDate endDate, int monthsCount, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
         super(user, bank);
         this.startDate = startDate;
         this.endDate = endDate;
-        this.numMonths = numMonths;
+        this.monthsCount = monthsCount;
         this.creditAmount = creditAmount;
         this.monthlyPayment = monthlyPayment;
         this.interestRate = interestRate;
@@ -25,7 +25,7 @@ public class CreditAccount extends Account {
     }
 
     public CreditAccount(CreditAccount account) {
-        this(account.user, account.bank, account.startDate, account.endDate, account.numMonths, account.creditAmount, account.monthlyPayment, account.interestRate, account.bankEmployee, account.paymentAccount);
+        this(account.user, account.bank, account.startDate, account.endDate, account.monthsCount, account.creditAmount, account.monthlyPayment, account.interestRate, account.bankEmployee, account.paymentAccount);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class CreditAccount extends Account {
                 "Банк: " + bank.getName() + "\n" +
                 "Дата начала кредита: " + startDate + "\n" +
                 "Дата окончания кредита: " + endDate + "\n" +
-                "Кол-во месяцев кредита: " + numMonths + "\n" +
+                "Кол-во месяцев кредита: " + monthsCount + "\n" +
                 "Сумма кредита: " + String.format("%.2f",creditAmount) + "\n" +
                 "Ежемесячный платеж " + String.format("%.2f", monthlyPayment) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", interestRate) + "\n" +
@@ -100,11 +100,11 @@ public class CreditAccount extends Account {
         this.startDate = startDate;
     }
 
-    public int getNumMonths() {
-        return numMonths;
+    public int getMonthsCount() {
+        return monthsCount;
     }
 
-    public void setNumMonths(int numMonths) {
-        this.numMonths = numMonths;
+    public void setMonthsCount(int monthsCount) {
+        this.monthsCount = monthsCount;
     }
 }
