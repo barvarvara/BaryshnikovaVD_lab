@@ -64,6 +64,32 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
+    public boolean addAtm(Bank bank, BankAtm atm) {
+        if (bank == null || atm == null) {
+            System.out.println("Error: не существует банка или банкомата");
+            return false;
+        }
+
+        atm.setBank(bank);
+        bank.setAtmCount(bank.getAtmCount() + 1);
+
+        return true;
+    }
+
+    @Override
+    public boolean addUser(Bank bank, User user) {
+        if (bank == null || user == null) {
+            System.out.println("Error: не существует банка или клиента");
+            return false;
+        }
+
+        user.setBank(bank);
+        bank.setUsersCount(bank.getUsersCount() + 1);
+
+        return true;
+    }
+
+    @Override
     public boolean deleteBankOffice(Bank bank, BankOffice office) {
         if (bank == null || office == null) {
             System.out.println("Error: не существует банка или офиса банка");

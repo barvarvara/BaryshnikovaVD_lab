@@ -47,26 +47,15 @@ public class Bank {
         interestRate = 0;
     }
 
-    /** Конструктор класса Банк
-     * @param name Название банка
-     * @param atmCount Кол-во банкоматов
-     * @param officesCount Кол-во офисов
-     * @param employeeCount Кол-во сотрудников
-     * @param usersCount Кол-во клиентов
-     * */
-    public Bank(String name, int atmCount, int officesCount, int employeeCount, int usersCount) {
-        this(name);
-        this.officesCount = officesCount;
-        this.atmCount = atmCount;
-        this.employeeCount = employeeCount;
-        this.usersCount = usersCount;
-    }
-
     /** Конструктор копирования класса Банк
      * @param bank Банк, информация из которого копируется в создаваемый банк
      * */
     public Bank(Bank bank) {
-        this(bank.name, bank.atmCount, bank.officesCount, bank.employeeCount, bank.usersCount);
+        this(bank.name);
+        this.atmCount = bank.atmCount;
+        this.employeeCount = bank.employeeCount;
+        this.officesCount = bank.officesCount;
+        this.usersCount = bank.usersCount;
     }
 
     /** Переопределенный метод toString

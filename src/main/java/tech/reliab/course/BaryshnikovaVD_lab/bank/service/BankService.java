@@ -49,6 +49,24 @@ public interface BankService {
     boolean addEmployee(Bank bank, Employee employee);
 
     /**
+     * Добавляет банкомат в банк
+     *
+     * @param bank     банк, в который будет добавлен сотрудник
+     * @param atm     банкомат, принадлежащий банку
+     * @return true, если получилось добавить банкомат в банк, false -- в противном случае
+     */
+    boolean addAtm(Bank bank, BankAtm atm);
+
+    /**
+     * Добавляет клиента в банк
+     *
+     * @param bank     банк, в который будет добавлен сотрудник
+     * @param user     клиент банка
+     * @return true, если получилось добавить клиента в банк, false -- в противном случае
+     */
+    boolean addUser(Bank bank, User user);
+
+    /**
      * Удаляет сотрудника из банка
      *
      * @param bank     банк, из которого удалется сотрудник

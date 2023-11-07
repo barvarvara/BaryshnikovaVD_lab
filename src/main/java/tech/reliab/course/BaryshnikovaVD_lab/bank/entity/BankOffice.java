@@ -16,13 +16,13 @@ public class BankOffice {
     private double rentPrice;
     private Bank bank;
 
-    public BankOffice(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, int atmCount, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank) {
+    public BankOffice(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank) {
         id = Math.abs(UUID.randomUUID().hashCode());
         this.name = name;
         this.address = address;
         this.isWorking = isWorking;
         this.isPossibleToPlaceAtm = isPossibleToPlaceAtm;
-        this.atmCount = atmCount;
+        this.atmCount = 0;
         this.isCreditAvailable = isCreditAvailable;
         this.isMoneyWithdrawAvailable = isMoneyWithdrawAvailable;
         this.isDepositMoneyAvailable = isDepositMoneyAvailable;
@@ -32,7 +32,8 @@ public class BankOffice {
     }
 
     public BankOffice(BankOffice bankOffice) {
-        this(bankOffice.name, bankOffice.address, bankOffice.isWorking, bankOffice.isPossibleToPlaceAtm, bankOffice.atmCount, bankOffice.isCreditAvailable, bankOffice.isMoneyWithdrawAvailable, bankOffice.isDepositMoneyAvailable, bankOffice.moneyAmount, bankOffice.rentPrice, bankOffice.bank);
+        this(bankOffice.name, bankOffice.address, bankOffice.isWorking, bankOffice.isPossibleToPlaceAtm, bankOffice.isCreditAvailable, bankOffice.isMoneyWithdrawAvailable, bankOffice.isDepositMoneyAvailable, bankOffice.moneyAmount, bankOffice.rentPrice, bankOffice.bank);
+        this.atmCount = bankOffice.atmCount;
     }
 
     @Override
