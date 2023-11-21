@@ -1,21 +1,19 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 
-import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.CreditAccount;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.CreditAccountService;
+
+import java.time.LocalDate;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
-    public CreditAccount create(CreditAccount account) {
-        if (account == null) {
+    public CreditAccount create(User user, Bank bank, LocalDate startDate, LocalDate endDate, int monthsCount, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
+        if (bank == null) {
+            System.out.println("Ошибка! Невозможно создать счёт без банка");
             return null;
         }
 
-        if (account.getBank() == null) {
-            System.out.println("Error: Невозможно создать счёт без банка");
-            return null;
-        }
-
-        return new CreditAccount(account);
+        return new CreditAccount(user, bank, startDate, endDate, monthsCount, creditAmount, monthlyPayment, interestRate, bankEmployee, paymentAccount);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
     public boolean makeMonthlyPayment(CreditAccount account) {
         if (account == null || account.getPaymentAccount() == null) {
-            System.out.println("Error: нет счёта, с которого может осуществляться перевод.");
+            System.out.println("Ошибка! нет счёта, с которого может осуществляться перевод.");
             return false;
         }
 
@@ -43,7 +41,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         final double balance = account.getPaymentAccount().getBalance();
 
         if (balance < monthlyPayment) {
-            System.out.println("Error: На платежном счете недостаточно средст для оплаты ежемесячного платежа.");
+            System.out.println("Ошибка! На платежном счете недостаточно средст для оплаты ежемесячного платежа.");
             return false;
         }
 

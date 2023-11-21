@@ -2,59 +2,78 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class User extends Human {
     private String workplace;
     private double monthlyIncome;
-    private Bank bank;
-    private int bankCreditRating;
+    private ArrayList<Bank> banks;
+    private ArrayList<CreditAccount> creditAccounts;
+    private ArrayList<PaymentAccount> paymentAccounts;
+    private int creditRating;
 
     public User() {
         super();
         monthlyIncome = 0;
-        bankCreditRating = 0;
+        creditRating = 0;
         workplace = "";
-        bank = null;
+
+        this.banks = new ArrayList<>();
+        this.creditAccounts = new ArrayList<>();
+        this.paymentAccounts = new ArrayList<>();
     }
 
-    public User(String fcs, LocalDate birthday, String workplace, Bank bank, double monthlyIncome, int bankCreditRating) {
+    public User(String fcs, LocalDate birthday, String workplace) {
         super(fcs, birthday);
         this.workplace = workplace;
-        this.bank = bank;
-        this.monthlyIncome = monthlyIncome;
-        this.bankCreditRating = bankCreditRating;
     }
 
     public User(User user) {
-        this(user.fcs, user.birthday, user.workplace, user.bank, user.monthlyIncome, user.bankCreditRating);
+        this(user.fcs, user.birthday, user.workplace);
     }
 
     @Override
     public String toString() {
-        return "Информация о клиенте банка " + "\n" +
+        StringBuilder logString = new StringBuilder("Информация о клиенте банка:\n" +
                 "id: " + id + "\n" +
                 "ФИО: " + fcs + '\n' +
                 "День рождения: " + birthday.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + '\n' +
                 "Место работы: " + workplace + '\n' +
                 "Ежемесячный доход: " + String.format("%.2f", monthlyIncome) + '\n' +
-                "Банк, которым он пользуется: " + bank.getName() + '\n' +
-                "Кредитный рейтинг для банка: " + bankCreditRating + "\n\n";
+                "Кредитный рейтинг: " + creditRating + "\n"
+        );
+
+        logString.append("Банки: ");
+        if (banks == null)
+            logString.append("нет\n");
+        else
+            for (Bank bank : this.banks)
+                logString.append("|").append(bank.getName()).append("| ");
+
+        logString.append("\nПлатёжные счета: ");
+        if (paymentAccounts == null)
+            logString.append("нет\n");
+        else
+            for (PaymentAccount paymentAccount : this.paymentAccounts)
+                logString.append(" |№").append(paymentAccount.getId()).append(" ").append(paymentAccount.getBank().getName()).append("| ");
+
+        logString.append("\nКредитные счета: ");
+        if (creditAccounts == null)
+            logString.append("нет\n");
+        else
+            for (CreditAccount creditAccount : this.creditAccounts)
+                logString.append(" |№").append(creditAccount.getId()).append(" ").append(creditAccount.getBank().getName()).append("| ");
+
+        return "\n" + logString;
     }
 
-    public Bank getBank() {
-        return bank;
+
+    public int getCreditRating() {
+        return creditRating;
     }
 
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    public int getBankCreditRating() {
-        return bankCreditRating;
-    }
-
-    public void setBankCreditRating(int bankCreditRating) {
-        this.bankCreditRating = bankCreditRating;
+    public void setCreditRating(int creditRating) {
+        this.creditRating = creditRating;
     }
 
     public double getMonthlyIncome() {
@@ -71,5 +90,29 @@ public class User extends Human {
 
     public void setWorkplace(String workplace) {
         this.workplace = workplace;
+    }
+
+    public ArrayList<Bank> getBanks() {
+        return banks;
+    }
+
+    public void setBanks(ArrayList<Bank> banks) {
+        this.banks = banks;
+    }
+
+    public ArrayList<CreditAccount> getCreditAccounts() {
+        return creditAccounts;
+    }
+
+    public void setCreditAccounts(ArrayList<CreditAccount> creditAccounts) {
+        this.creditAccounts = creditAccounts;
+    }
+
+    public ArrayList<PaymentAccount> getPaymentAccounts() {
+        return paymentAccounts;
+    }
+
+    public void setPaymentAccounts(ArrayList<PaymentAccount> paymentAccounts) {
+        this.paymentAccounts = paymentAccounts;
     }
 }

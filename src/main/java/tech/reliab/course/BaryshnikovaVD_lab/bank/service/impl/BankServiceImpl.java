@@ -1,20 +1,18 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankOfficeService;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankService;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static tech.reliab.course.BaryshnikovaVD_lab.bank.utils.Constants.*;
 
 public class BankServiceImpl implements BankService {
     @Override
-    public Bank create(Bank bank) {
-        if (bank == null) {
-            return null;
-        }
-
-        Bank newBank = new Bank(bank);
+    public Bank create(String name) {
+        Bank newBank = new Bank(name);
 
         newBank.setRating((int) (Math.random() * MAX_BANK_RATING));
         newBank.setTotalAmountMoney(Math.random() * MAX_TOTAL_MONEY);
@@ -26,15 +24,10 @@ public class BankServiceImpl implements BankService {
     @Override
     public void delete(Bank bank) {
         bank.setName("");
-        bank.setOfficesCount(0);
-        bank.setAtmCount(0);
-        bank.setEmployeeCount(0);
-        bank.setUsersCount(0);
         bank.setRating(0);
         bank.setTotalAmountMoney(0);
         bank.setInterestRate(0);
     }
-
 
     private double calcInterestRate(Bank bank) {
         if (bank == null)
@@ -53,38 +46,17 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean addBankOffice(Bank bank, BankOffice office) {
         if (bank == null || office == null) {
-            System.out.println("Error: не существует банка или офиса банка");
+            System.out.println("Ошибка! не существует банка или офиса банка");
             return false;
         }
 
+        ArrayList<BankOffice> bankOffices = bank.getBankOffices();
+        if (bankOffices == null)
+            bankOffices = new ArrayList<>();
+
+        bankOffices.add(office);
+        bank.setBankOffices(bankOffices);
         office.setBank(bank);
-        bank.setOfficesCount(bank.getOfficesCount() + 1);
-
-        return true;
-    }
-
-    @Override
-    public boolean addAtm(Bank bank, BankAtm atm) {
-        if (bank == null || atm == null) {
-            System.out.println("Error: не существует банка или банкомата");
-            return false;
-        }
-
-        atm.setBank(bank);
-        bank.setAtmCount(bank.getAtmCount() + 1);
-
-        return true;
-    }
-
-    @Override
-    public boolean addUser(Bank bank, User user) {
-        if (bank == null || user == null) {
-            System.out.println("Error: не существует банка или клиента");
-            return false;
-        }
-
-        user.setBank(bank);
-        bank.setUsersCount(bank.getUsersCount() + 1);
 
         return true;
     }
@@ -92,31 +64,100 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean deleteBankOffice(Bank bank, BankOffice office) {
         if (bank == null || office == null) {
-            System.out.println("Error: не существует банка или офиса банка");
+            System.out.println("Ошибка! не существует банка или офиса банка");
             return false;
         }
 
         office.setBank(null);
-        int newOfficesCount = bank.getOfficesCount() - 1;
-        if (newOfficesCount < 0) {
-            System.out.println("Error: невозможно удалить офис, т.к. за банком не закреплено офисов");
-            return false;
-        }
 
-        bank.setOfficesCount(newOfficesCount);
+        BankOfficeService bankOfficeService = new BankOfficeServiceImpl();
+        ArrayList<BankAtm> bankAtms = office.getBankAtms();
+        bankAtms.forEach(bankAtm -> {
+            bankOfficeService.deleteAtm(office, bankAtm);
+        });
+
+        ArrayList<Employee> employees = office.getEmployees();
+        employees.forEach(employee -> {
+            bankOfficeService.deleteEmployee(office, employee);
+        });
+
+        ArrayList<BankOffice> bankOffices = bank.getBankOffices();
+        if (bankOffices.isEmpty()) {
+            System.out.println("Ошибка! невозможно удалить офис, т.к. за банком не закреплено офисов");
+            return false;
+        } else {
+            bankOffices.remove(office);
+            if (bankOffices.isEmpty())
+                bank.setBankOffices(null);
+            else
+                bank.setBankOffices(bankOffices);
+        }
 
         return true;
     }
 
     @Override
-    public boolean addEmployee(Bank bank, Employee employee) {
-        if (bank == null || employee == null) {
-            System.out.println("Error: не существует банка или сотрудника банка");
+    public boolean addAtm(Bank bank, BankAtm atm) {
+        if (bank == null || atm == null) {
+            System.out.println("Ошибка! не существует банка или банкомата");
             return false;
         }
 
+        ArrayList<BankAtm> bankAtms = bank.getBankAtms();
+        if (bankAtms == null)
+            bankAtms = new ArrayList<>();
+
+        bankAtms.add(atm);
+
+        atm.setBank(bank);
+        bank.setBankAtms(bankAtms);
+
+        return true;
+    }
+
+    @Override
+    public boolean addUser(Bank bank, User user) {
+        if (bank == null || user == null) {
+            System.out.println("Ошибка! не существует банка или клиента");
+            return false;
+        }
+
+        ArrayList<User> bankUsers = bank.getUsers();
+        if (bankUsers == null)
+            bankUsers = new ArrayList<>();
+
+        bankUsers.add(user);
+        bank.setUsers(bankUsers);
+
+
+        ArrayList<Bank> userBanks = user.getBanks();
+        if (userBanks == null)
+            userBanks = new ArrayList<>();
+
+        userBanks.add(bank);
+        user.setBanks(userBanks);
+
+        return true;
+    }
+
+
+
+    @Override
+    public boolean addEmployee(Bank bank, Employee employee) {
+        if (bank == null || employee == null) {
+            System.out.println("Ошибка! не существует банка или сотрудника банка");
+            return false;
+        }
+
+        ArrayList<Employee> employees = bank.getEmployees();
+        if (employees == null)
+            employees = new ArrayList<>();
+
+        employee.setWorkingAtHome(false);
         employee.setBank(bank);
-        bank.setEmployeeCount(bank.getEmployeeCount() + 1);
+        employees.add(employee);
+
+        bank.setEmployees(employees);
 
         return true;
     }
@@ -124,18 +165,32 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean deleteEmployee(Bank bank, Employee employee) {
         if (bank == null || employee == null) {
-            System.out.println("Error: не существует банка или сотрудника банка");
+            System.out.println("Ошибка! не существует банка или сотрудника банка");
             return false;
+        }
+
+        BankOfficeService bankOfficeService = new BankOfficeServiceImpl();
+
+        if (!employee.isWorkingAtHome()) {
+            ArrayList<BankOffice> bankOffices = bank.getBankOffices();
+            BankOffice bankOffice = bankOffices.get(bankOffices.indexOf(employee.getBankOffice()));
+            bankOfficeService.deleteEmployee(bankOffice, employee);
         }
 
         employee.setBank(null);
-        int newEmployeeCount = bank.getEmployeeCount() - 1;
-        if (newEmployeeCount < 0) {
-            System.out.println("Error: невозможно убрать сотрудника, т.к. за банком не закреплен ни один сотрудник");
-            return false;
-        }
+        employee.setBankOffice(null);
 
-        bank.setEmployeeCount(newEmployeeCount);
+        ArrayList<Employee> employees = bank.getEmployees();
+        if (employees.isEmpty()) {
+            System.out.println("Ошибка! невозможно убрать сотрудника, т.к. за банком не закреплен ни один сотрудник");
+            return false;
+        } else {
+            employees.remove(employee);
+            if (employees.isEmpty())
+                bank.setEmployees(null);
+            else
+                bank.setEmployees(employees);
+        }
 
         return true;
     }
@@ -143,7 +198,7 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean depositMoney(Bank bank, double moneyAmount) {
         if (bank == null) {
-            System.out.println("Error: Несуществующий банк.");
+            System.out.println("Ошибка! Несуществующий банк.");
             return false;
         }
 
@@ -155,12 +210,12 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean withdrawMoney(Bank bank, double moneyAmount) {
         if (bank == null) {
-            System.out.println("Error: Несуществующий банк.");
+            System.out.println("Ошибка! Несуществующий банк.");
             return false;
         }
 
         if (bank.getTotalAmountMoney() < moneyAmount) {
-            System.out.println("Error: Недостаточно средств в банке для выдачи необходимой суммы");
+            System.out.println("Ошибка! Недостаточно средств в банке для выдачи необходимой суммы");
             return false;
         }
 
@@ -168,4 +223,36 @@ public class BankServiceImpl implements BankService {
 
         return true;
     }
+
+    @Override
+    public void printInfo(Bank bank) {
+        if (bank == null) {
+            System.out.println("Ошибка! Банк не был найден");
+            return;
+        }
+
+        System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("\nИнформация о банке: \n" + bank.toString());
+
+        System.out.println("Офисы банка: \n");
+        ArrayList<BankOffice> bankOffices = bank.getBankOffices();
+        bankOffices.forEach((System.out::println));
+
+        System.out.println("Банкоматы: \n");
+        ArrayList<BankAtm> bankAtms = bank.getBankAtms();
+        bankAtms.forEach((System.out::println));
+
+        System.out.println("Сотрудники: \n");
+        ArrayList<Employee> employees = bank.getEmployees();
+        employees.forEach((System.out::println));
+
+        System.out.println("Клиенты: \n");
+        ArrayList<User> users = bank.getUsers();
+        users.forEach((System.out::println));
+
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+
+    }
+
+
 }

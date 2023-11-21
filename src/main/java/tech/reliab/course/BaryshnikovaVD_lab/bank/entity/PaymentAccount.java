@@ -5,7 +5,7 @@ public class PaymentAccount extends Account {
 
     public PaymentAccount(User user, Bank bank) {
         super(user, bank);
-        balance = 0;
+        this.balance = 0;
     }
 
     public PaymentAccount(User user, Bank bank, double balance) {
@@ -21,9 +21,9 @@ public class PaymentAccount extends Account {
     public String toString() {
         return "Информация о платежном счете" + "\n" +
                 "id: " + id + "\n" +
-                "Пользователь: " + user.getId() + " " + user.getFcs() + "\n" +
+                "Клиент: " + user.getId() + " " + user.getFcs() + "\n" +
                 "Название банка: " + bank.getName() + "\n" +
-                "Сумма на счету: " + String.format("%.2f", balance) + "\n\n";
+                "Сумма на счету: " + String.format("%.2f", balance) + "\n";
     }
 
     public double getBalance() {

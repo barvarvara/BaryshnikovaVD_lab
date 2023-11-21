@@ -7,12 +7,8 @@ import tech.reliab.course.BaryshnikovaVD_lab.bank.service.PaymentAccountService;
 
 public class PaymentAccountServiceImpl implements PaymentAccountService {
     @Override
-    public PaymentAccount create(PaymentAccount account) {
-        if (account == null) {
-            return null;
-        }
-
-        return new PaymentAccount(account);
+    public PaymentAccount create(User user, Bank bank, double balance) {
+        return new PaymentAccount(user, bank, balance);
     }
 
     @Override

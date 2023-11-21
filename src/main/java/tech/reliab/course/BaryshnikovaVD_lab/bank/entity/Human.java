@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Human {
+    private static int currentId;
     protected int id;
     protected String fcs;
     protected LocalDate birthday;
 
     public Human() {
-        id = Math.abs(UUID.randomUUID().hashCode());
+        id = currentId++;
         fcs = "";
         birthday = null;
     }

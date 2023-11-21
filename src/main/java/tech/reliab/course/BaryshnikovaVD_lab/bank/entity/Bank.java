@@ -1,81 +1,109 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
+
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Класс сущности Банк
  */
 public class Bank {
+    /**
+     * Статическое поле currentId для определения id следующего объекта класса
+     */
+    private static int currentId;
 
-    /** Поле id */
+    /**
+     * Поле id
+     */
     private int id;
 
-    /** Название банка */
+    /**
+     * Название банка
+     */
     private String name;
 
-    /** Кол-во банкоматов */
-    private int atmCount;
+    /**
+     * Массив банкоматов банка
+     */
+    private ArrayList<BankAtm> bankAtms;
 
-    /** Кол-во офисов */
-    private int officesCount;
+    /**
+     * Массив офисов банка
+     */
+    private ArrayList<BankOffice> bankOffices;
 
-    /** Кол-во сотрудников */
-    private int employeeCount;
+    /**
+     * Массив сотрудников банка
+     */
+    private ArrayList<Employee> employees;
 
-    /** Кол-во клиентов */
-    private int usersCount;
+    /**
+     * Массив клиентов банка
+     */
+    private ArrayList<User> users;
 
-    /** Рейтинг банка */
+    /**
+     * Рейтинг банка
+     */
     private int rating;
 
-    /** Всего денег в банке */
+    /**
+     * Всего денег в банке
+     */
     private double totalAmountMoney;
 
-    /** Процентная ставка */
+    /**
+     * Процентная ставка
+     */
     private double interestRate;
 
-    /** Конструктор класса Банк
-     * @param name Название банка*/
+    /**
+     * Конструктор класса Банк
+     *
+     * @param name Название банка
+     */
     public Bank(String name) {
-        id = Math.abs(UUID.randomUUID().hashCode());
+        this.id = currentId++;
         this.name = name;
-        officesCount = 0;
-        atmCount = 0;
-        employeeCount = 0;
-        usersCount = 0;
-        rating = 0;
-        totalAmountMoney = 0;
-        interestRate = 0;
+        this.bankOffices = new ArrayList<>();
+        this.bankAtms = new ArrayList<>();
+        this.employees = new ArrayList<>();
+        this.users = new ArrayList<>();
+        this.rating = 0;
+        this.totalAmountMoney = 0;
+        this.interestRate = 0;
     }
 
-    /** Конструктор копирования класса Банк
+    /**
+     * Конструктор копирования класса Банк
+     *
      * @param bank Банк, информация из которого копируется в создаваемый банк
-     * */
+     */
     public Bank(Bank bank) {
         this(bank.name);
-        this.atmCount = bank.atmCount;
-        this.employeeCount = bank.employeeCount;
-        this.officesCount = bank.officesCount;
-        this.usersCount = bank.usersCount;
     }
 
-    /** Переопределенный метод toString
+    /**
+     * Переопределенный метод toString
+     *
      * @return возвращает представление объекта класса Банк в виде строки
-     * */
+     */
     @Override
     public String toString() {
-        return "Информация о банке" + "\n" +
-                "id: " + id + "\n" +
+        return "id: " + id + "\n" +
                 "Название: " + name + "\n" +
-                "Кол-во офисов: " + officesCount + "\n" +
-                "Кол-во банкоматов: " + atmCount + "\n" +
-                "Кол-во сотрудников: " + employeeCount + "\n" +
-                "Кол-во клиентов: " + usersCount + "\n" +
                 "Рейтинг банка: " + rating + "\n" +
+                "Кол-во офисов: " + bankOffices.size() + "\n" +
+                "Кол-во банкоматов: " + bankAtms.size() + "\n" +
+                "Кол-во сотрудников: " + employees.size() + "\n" +
+                "Кол-во клиентов: " + users.size() + "\n" +
                 "Всего денег в банке: " + String.format("%.2f", totalAmountMoney) + "\n" +
-                "Процентная ставка: " + String.format("%.2f", interestRate) + "\n\n";
+                "Процентная ставка: " + String.format("%.2f", interestRate) + "\n";
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -113,35 +141,35 @@ public class Bank {
         this.interestRate = interestRate;
     }
 
-    public int getAtmCount() {
-        return atmCount;
+    public ArrayList<BankAtm> getBankAtms() {
+        return bankAtms;
     }
 
-    public void setAtmCount(int atmCount) {
-        this.atmCount = atmCount;
+    public void setBankAtms(ArrayList<BankAtm> bankAtms) {
+        this.bankAtms = bankAtms;
     }
 
-    public int getUsersCount() {
-        return usersCount;
+    public ArrayList<BankOffice> getBankOffices() {
+        return bankOffices;
     }
 
-    public void setUsersCount(int usersCount) {
-        this.usersCount = usersCount;
+    public void setBankOffices(ArrayList<BankOffice> bankOffices) {
+        this.bankOffices = bankOffices;
     }
 
-    public int getEmployeeCount() {
-        return employeeCount;
+    public ArrayList<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setEmployeeCount(int employeeCount) {
-        this.employeeCount = employeeCount;
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
     }
 
-    public int getOfficesCount() {
-        return officesCount;
+    public ArrayList<User> getUsers() {
+        return users;
     }
 
-    public void setOfficesCount(int officesCount) {
-        this.officesCount = officesCount;
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
     }
 }

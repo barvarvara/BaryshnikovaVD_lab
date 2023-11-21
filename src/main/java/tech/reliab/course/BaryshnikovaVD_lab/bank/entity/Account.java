@@ -1,14 +1,14 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
-import java.util.UUID;
 
 public class Account {
+    private static int currentId;
     protected int id;
     protected User user;
     protected Bank bank;
 
     public Account() {
-        id = Math.abs(UUID.randomUUID().hashCode());
+        id = currentId++;
         user = null;
         bank = null;
     }

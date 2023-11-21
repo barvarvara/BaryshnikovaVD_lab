@@ -3,6 +3,7 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.JobName;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Employee extends Human {
     private JobName jobName;
@@ -12,18 +13,13 @@ public class Employee extends Human {
     private boolean canWithdrawCredit;
     private double salaryAmount;
 
-    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, boolean canWithdrawCredit, double salaryAmount) {
+    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canWithdrawCredit, double salaryAmount) {
         super(fcs, birthday);
         this.jobName = jobName;
         this.bank = bank;
         this.isWorkingAtHome = isWorkingAtHome;
         this.canWithdrawCredit = canWithdrawCredit;
         this.salaryAmount = salaryAmount;
-        this.bankOffice = null;
-    }
-
-    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canTakeCredit, double salaryAmount) {
-        this(fcs, birthday, jobName, bank, isWorkingAtHome, canTakeCredit, salaryAmount);
         this.bankOffice = bankOffice;
     }
 
@@ -36,13 +32,13 @@ public class Employee extends Human {
         return "Информация о сотруднике банка" + "\n" +
                 "id: " + id + "\n" +
                 "ФИО: " + fcs + "\n" +
-                "Дата рождения: " + birthday + "\n" +
-                "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" : "консультант") + "\n" +
+                "День рождения: " + birthday.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + '\n' +
+                "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" : ((jobName == JobName.PROGRAMMER) ? "программист" : "консультант")) + "\n" +
                 "В каком банке работает: " + bank.getName() + "\n" +
                 "Работает: " + (isWorkingAtHome ? "удаленно" : "в банковском офисе") + "\n" +
-                "Банковский офис: " + (bankOffice != null ? (bankOffice.getId() + " " + bankOffice.getName()): "сотрудник не прикреплен к офису банка") + "\n" +
-                "Может выдавать кредиты? " + (canWithdrawCredit ? "да" : "нет") + "\n" +
-                "Размер зарплаты: " + String.format("%.2f", salaryAmount) + "\n\n";
+                (bankOffice != null ? ("Банковский офис: " + bankOffice.getId() + " " + bankOffice.getName()) : "Сотрудник не прикреплен к офису банка") + "\n" +
+                (canWithdrawCredit ? "М" : "Не м") + "ожет выдавать кредиты\n" +
+                "Размер зарплаты: " + String.format("%.2f", salaryAmount) + "\n";
     }
 
     public BankOffice getBankOffice() {

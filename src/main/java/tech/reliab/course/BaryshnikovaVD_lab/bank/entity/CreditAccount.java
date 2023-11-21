@@ -1,6 +1,7 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CreditAccount extends Account {
     private LocalDate startDate;
@@ -32,16 +33,16 @@ public class CreditAccount extends Account {
     public String toString() {
         return "Информация о кредитном счете" + "\n" +
                 "id: " + id + "\n" +
-                "Пользователь,: " + user.getFcs() + "\n" +
+                "Клиент: " + user.getFcs() + "\n" +
                 "Банк: " + bank.getName() + "\n" +
-                "Дата начала кредита: " + startDate + "\n" +
-                "Дата окончания кредита: " + endDate + "\n" +
+                "Дата начала кредита: " + startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
+                "Дата окончания кредита: " + endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "\n" +
                 "Кол-во месяцев кредита: " + monthsCount + "\n" +
-                "Сумма кредита: " + String.format("%.2f",creditAmount) + "\n" +
+                "Сумма кредита: " + String.format("%.2f", creditAmount) + "\n" +
                 "Ежемесячный платеж " + String.format("%.2f", monthlyPayment) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", interestRate) + "\n" +
                 "Сотрудник, который выдал кредит: " + bankEmployee.getFcs() + "\n" +
-                "Платежный счет в банке: " + paymentAccount.getId() + " " + paymentAccount.getBank().getName() + "\n\n";
+                "Платежный счет: " + "№" + paymentAccount.getId() + " " + paymentAccount.getBank().getName() + "\n";
     }
 
     public double getCreditAmount() {

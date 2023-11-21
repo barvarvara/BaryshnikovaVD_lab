@@ -1,28 +1,33 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class BankOffice {
+    private static int currentId;
+
     private int id;
     private String name;
     private String address;
     private boolean isWorking;
     private boolean isPossibleToPlaceAtm;
-    private int atmCount;
     private boolean isCreditAvailable;
     private boolean isMoneyWithdrawAvailable;
     private boolean isDepositMoneyAvailable;
     private double moneyAmount;
     private double rentPrice;
+    private ArrayList<BankAtm> bankAtms;
+    private ArrayList<Employee> employees;
     private Bank bank;
 
     public BankOffice(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank) {
-        id = Math.abs(UUID.randomUUID().hashCode());
+        id = currentId++;
+        this.bankAtms = new ArrayList<>();
+        this.employees = new ArrayList<>();
         this.name = name;
         this.address = address;
         this.isWorking = isWorking;
         this.isPossibleToPlaceAtm = isPossibleToPlaceAtm;
-        this.atmCount = 0;
         this.isCreditAvailable = isCreditAvailable;
         this.isMoneyWithdrawAvailable = isMoneyWithdrawAvailable;
         this.isDepositMoneyAvailable = isDepositMoneyAvailable;
@@ -33,7 +38,6 @@ public class BankOffice {
 
     public BankOffice(BankOffice bankOffice) {
         this(bankOffice.name, bankOffice.address, bankOffice.isWorking, bankOffice.isPossibleToPlaceAtm, bankOffice.isCreditAvailable, bankOffice.isMoneyWithdrawAvailable, bankOffice.isDepositMoneyAvailable, bankOffice.moneyAmount, bankOffice.rentPrice, bankOffice.bank);
-        this.atmCount = bankOffice.atmCount;
     }
 
     @Override
@@ -44,13 +48,14 @@ public class BankOffice {
                 "Адрес: " + address + "\n" +
                 "Банк: " + bank.getName() + "\n" +
                 "Статус: " + (isWorking ? "работает" : "не работает") + "\n" +
-                "Можно разместить банкомат? " + (isPossibleToPlaceAtm ? "да" : "нет") + "\n" +
-                "Кол-во банкоматов: " + atmCount + "\n" +
-                "Можно оформить кредит? " + (isCreditAvailable ? "да" : "нет") + "\n" +
-                "Работает на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
-                "Можно внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
+                (isPossibleToPlaceAtm ? "Можно" : "Нельзя") + " разместить банкомат\n" +
+                "Кол-во банкоматов: " + bankAtms.size() + "\n" +
+                "Кол-во сотрудников: " + employees.size() + "\n" +
+                (isCreditAvailable ? "Можно" : "Нельзя") + " оформить кредит\n" +
+                (isMoneyWithdrawAvailable ? "Р" : "Не р") + "аботает на выдачу денег\n" +
+                (isDepositMoneyAvailable ? "Можно" : "Нельзя") + " внести деньги\n" +
                 "Кол-во денег: " + String.format("%.2f", moneyAmount) + "\n" +
-                "Стоимость аренды: " + String.format("%.2f", rentPrice) + "\n\n";
+                "Стоимость аренды: " + String.format("%.2f", rentPrice) + "\n";
     }
 
 
@@ -77,14 +82,6 @@ public class BankOffice {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public int getAtmCount() {
-        return atmCount;
-    }
-
-    public void setAtmCount(int atmCount) {
-        this.atmCount = atmCount;
     }
 
     public double getMoneyAmount() {
@@ -149,5 +146,21 @@ public class BankOffice {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public ArrayList<BankAtm> getBankAtms() {
+        return bankAtms;
+    }
+
+    public void setBankAtms(ArrayList<BankAtm> bankAtms) {
+        this.bankAtms = bankAtms;
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
     }
 }

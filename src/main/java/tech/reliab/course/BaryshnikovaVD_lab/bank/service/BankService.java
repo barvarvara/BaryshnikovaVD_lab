@@ -9,10 +9,10 @@ public interface BankService {
     /**
      * Создает новый банк
      *
-     * @param bank объект класса Банк, информация которого копируется в создаваемый
+     * @param name название нового банка
      * @return возвращает созданный новый банк
      */
-    Bank create(Bank bank);
+    Bank create(String name);
 
     /**
      * Удаляет банк (обнуляет его поля)
@@ -51,8 +51,8 @@ public interface BankService {
     /**
      * Добавляет банкомат в банк
      *
-     * @param bank     банк, в который будет добавлен сотрудник
-     * @param atm     банкомат, принадлежащий банку
+     * @param bank банк, в который будет добавлен сотрудник
+     * @param atm  банкомат, принадлежащий банку
      * @return true, если получилось добавить банкомат в банк, false -- в противном случае
      */
     boolean addAtm(Bank bank, BankAtm atm);
@@ -60,8 +60,8 @@ public interface BankService {
     /**
      * Добавляет клиента в банк
      *
-     * @param bank     банк, в который будет добавлен сотрудник
-     * @param user     клиент банка
+     * @param bank банк, в который будет добавлен сотрудник
+     * @param user клиент банка
      * @return true, если получилось добавить клиента в банк, false -- в противном случае
      */
     boolean addUser(Bank bank, User user);
@@ -92,4 +92,11 @@ public interface BankService {
      * @return true, если получилось выдать нужную сумму, false -- в противном случае
      */
     boolean withdrawMoney(Bank bank, double moneyAmount);
+
+    /**
+     * Выводит информацию о банке
+     *
+     * @param bank банк, информацию о котором, нужно вывести в консоль
+     */
+    public void printInfo(Bank bank);
 }

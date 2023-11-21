@@ -2,9 +2,9 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
 import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.BankAtmStatus;
 
-import java.util.UUID;
-
 public class BankAtm {
+    private static int currentId;
+
     private int id;
     private String name;
     private String address;
@@ -18,7 +18,7 @@ public class BankAtm {
     private double atmServicePrice;
 
     public BankAtm(String name, BankAtmStatus status, Bank bank, BankOffice bankOffice, Employee employee, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double atmServicePrice, double moneyAmount) {
-        id = Math.abs(UUID.randomUUID().hashCode());
+        id = currentId++;
         this.name = name;
         this.bankOffice = bankOffice;
         this.address = bankOffice.getAddress();
@@ -37,7 +37,7 @@ public class BankAtm {
 
     @Override
     public String toString() {
-        return "Информация о банкомате" + "\n" +
+        return "Информация о банкомате:" + "\n" +
                 "id: " + id + "\n" +
                 "Название: " + name + "\n" +
                 "Адрес: " + address + "\n" +
@@ -45,10 +45,10 @@ public class BankAtm {
                 "Банк: " + bank.getName() + "\n" +
                 "Расположение банкомата: " + bankOffice.getName() + " " + bankOffice.getAddress() + "\n" +
                 "Обслуживающий сотрудник: " + employee.getFcs() + "\n" +
-                "Работает на выдачу денег? " + (isMoneyWithdrawAvailable ? "да" : "нет") + "\n" +
-                "Можно внести деньги? " + (isDepositMoneyAvailable ? "да" : "нет") + "\n" +
+                (!isMoneyWithdrawAvailable ? "Не р" : "Р") + "аботает на выдачу денег\n" +
+                (!isDepositMoneyAvailable ? "Нельзя" : "Можно") + " внести деньги\n" +
                 "Кол-во денег в банкомате: " + String.format("%.2f", moneyAmount) + "\n" +
-                "Стоимость обслуживания: " + String.format("%.2f", atmServicePrice) + "\n\n";
+                "Стоимость обслуживания: " + String.format("%.2f", atmServicePrice) + "\n";
     }
 
     public int getId() {

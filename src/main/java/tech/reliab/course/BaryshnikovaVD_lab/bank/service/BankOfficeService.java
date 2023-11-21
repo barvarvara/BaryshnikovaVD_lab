@@ -1,11 +1,12 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service;
 
+import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.Bank;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.BankAtm;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.BankOffice;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.Employee;
 
 public interface BankOfficeService {
-    BankOffice create(BankOffice bankOffice);
+    BankOffice create(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank);
 
     void delete(BankOffice bankOffice);
 

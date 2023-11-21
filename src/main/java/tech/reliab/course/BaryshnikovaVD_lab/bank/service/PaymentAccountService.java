@@ -1,9 +1,11 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service;
 
+import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.Bank;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.PaymentAccount;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.User;
 
 public interface PaymentAccountService {
-    PaymentAccount create(PaymentAccount account);
+    PaymentAccount create(User user, Bank bank, double balance);
 
     void delete(PaymentAccount account);
 
