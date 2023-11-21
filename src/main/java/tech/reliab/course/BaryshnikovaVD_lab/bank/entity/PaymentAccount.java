@@ -19,9 +19,9 @@ public class PaymentAccount extends Account {
 
     @Override
     public String toString() {
-        return "Информация о платежном счете" + "\n" +
+        return "Информация о платежном счете:" + "\n" +
                 "id: " + id + "\n" +
-                "Клиент: " + user.getId() + " " + user.getFcs() + "\n" +
+                "Клиент: " + "№" +  user.getId() + " " + user.getFcs() + "\n" +
                 "Название банка: " + bank.getName() + "\n" +
                 "Сумма на счету: " + String.format("%.2f", balance) + "\n";
     }

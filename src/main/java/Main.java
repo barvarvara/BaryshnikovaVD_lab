@@ -44,7 +44,7 @@ public class Main {
                 for (int k = 0; k < USERS_NUM; k++) {
                     LocalDate birthday = LocalDate.of(random.nextInt(1950, 2010), random.nextInt(1, 13), random.nextInt(1, 29));
                     String name = NAMES.get(random.nextInt(NAMES.size()));
-                    User user = userService.create(name, birthday, "Место работы " + j);
+                    User user = userService.create(name, birthday, "Место работы " + k);
 
                     bankService.addUser(bank, user);
                     users.put(user.getId(), user);
@@ -93,7 +93,7 @@ public class Main {
 
         boolean quitProgram = false;
         while (!quitProgram) {
-            System.out.println("Выберите действие: ");
+            System.out.println("\nВыберите действие: ");
             System.out.println("1 - Посмотреть информацию о банке ");
             System.out.println("2 - Посмотреть информацию о клиенте банка ");
             System.out.println("3 - Выйти из системы");

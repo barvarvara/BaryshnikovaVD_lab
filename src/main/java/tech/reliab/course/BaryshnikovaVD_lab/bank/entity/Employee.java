@@ -36,7 +36,7 @@ public class Employee extends Human {
                 "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" : ((jobName == JobName.PROGRAMMER) ? "программист" : "консультант")) + "\n" +
                 "В каком банке работает: " + bank.getName() + "\n" +
                 "Работает: " + (isWorkingAtHome ? "удаленно" : "в банковском офисе") + "\n" +
-                (bankOffice != null ? ("Банковский офис: " + bankOffice.getId() + " " + bankOffice.getName()) : "Сотрудник не прикреплен к офису банка") + "\n" +
+                (bankOffice != null ? ("Банковский офис: " + "№" + bankOffice.getId() + " " + bankOffice.getName()) : "Сотрудник не прикреплен к офису банка") + "\n" +
                 (canWithdrawCredit ? "М" : "Не м") + "ожет выдавать кредиты\n" +
                 "Размер зарплаты: " + String.format("%.2f", salaryAmount) + "\n";
     }
