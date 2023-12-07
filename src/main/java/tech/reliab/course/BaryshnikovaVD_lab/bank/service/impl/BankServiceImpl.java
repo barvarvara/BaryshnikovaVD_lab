@@ -233,7 +233,7 @@ public class BankServiceImpl implements BankService {
         }
 
         System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("\nИнформация о банке: \n" + bank.toString());
+        System.out.println("\nИнформация о банке: \n" + bank);
 
         System.out.println("Офисы банка: \n");
         ArrayList<BankOffice> bankOffices = bank.getBankOffices();
@@ -334,7 +334,7 @@ public class BankServiceImpl implements BankService {
                 selectedBanks.add(bank);
 
         if (selectedBanks.isEmpty())
-            throw new CreditException("Не найдено ни одного подходящего банка для получения кредита с параметрами: amount=" + amount + " monthsCount=" + monthsCount);
+            throw new CreditException("Не найдено ни одного подходящего банка для получения кредита с параметрами: сумма кредита=" + amount + " кол-во месяцев=" + monthsCount);
 
         return selectedBanks;
     }
