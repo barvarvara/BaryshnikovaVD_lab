@@ -178,9 +178,17 @@ public class Main {
                             BankOffice selectedOffice;
 
                             try {
-                                selectedOffice = bankOffices.stream().filter((bankOffice -> bankOffice.getId() == scannedBankOfficeId)).toList().get(0);
+                                List<Integer> bankOfficesIds = bankOffices
+                                        .stream()
+                                        .map(BankOffice::getId)
+                                        .toList();
 
-                                if (selectedOffice != null) {
+                                if (bankOfficesIds.contains(scannedBankOfficeId)) {
+                                    selectedOffice = bankOffices
+                                            .stream()
+                                            .filter((bankOffice -> bankOffice.getId() == scannedBankOfficeId))
+                                            .toList().get(0);
+
                                     if (bankOfficeService.checkBankOffice(selectedOffice, creditAmount))
                                         System.out.println("\nВыбран офис №" + selectedOffice.getId() + ":\n" + selectedOffice);
                                 } else
@@ -190,7 +198,10 @@ public class Main {
                                 return;
                             }
 
-                            List<Employee> officeEmployees = selectedOffice.getEmployees().stream().filter((Employee::canWithdrawCredit)).toList();
+                            List<Employee> officeEmployees = selectedOffice.getEmployees()
+                                    .stream()
+                                    .filter((Employee::canWithdrawCredit))
+                                    .toList();
 
                             try {
                                 if (officeEmployees.isEmpty())
@@ -201,7 +212,7 @@ public class Main {
                             }
 
                             Employee officeEmployee = officeEmployees.get(0);
-                            System.out.println("Вам назначен сотрудник для выдачи кредита: id=" + officeEmployee.getId() + " " +officeEmployee.getFcs() + "\n");
+                            System.out.println("Вам назначен сотрудник для выдачи кредита: id=" + officeEmployee.getId() + " " + officeEmployee.getFcs() + "\n");
 
 
                             PaymentAccount paymentAccount;
