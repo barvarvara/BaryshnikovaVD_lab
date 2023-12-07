@@ -25,6 +25,18 @@ public class CreditAccount extends Account {
         this.paymentAccount = paymentAccount;
     }
 
+    public CreditAccount(User user, Bank bank, LocalDate startDate, int monthsCount, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
+        super(user, bank);
+        this.startDate = startDate;
+        this.endDate = startDate.plusMonths(monthsCount);
+        this.monthsCount = monthsCount;
+        this.creditAmount = creditAmount;
+        this.monthlyPayment = monthlyPayment;
+        this.interestRate = interestRate;
+        this.bankEmployee = bankEmployee;
+        this.paymentAccount = paymentAccount;
+    }
+
     public CreditAccount(CreditAccount account) {
         this(account.user, account.bank, account.startDate, account.endDate, account.monthsCount, account.creditAmount, account.monthlyPayment, account.interestRate, account.bankEmployee, account.paymentAccount);
     }
@@ -57,7 +69,7 @@ public class CreditAccount extends Account {
         return interestRate;
     }
 
-    public void setInterestRate(int interestRate) {
+    public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
 
@@ -81,7 +93,7 @@ public class CreditAccount extends Account {
         return monthlyPayment;
     }
 
-    public void setMonthlyPayment(int monthlyPayment) {
+    public void setMonthlyPayment(double monthlyPayment) {
         this.monthlyPayment = monthlyPayment;
     }
 

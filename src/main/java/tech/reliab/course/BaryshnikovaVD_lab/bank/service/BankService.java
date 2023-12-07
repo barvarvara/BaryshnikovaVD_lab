@@ -2,6 +2,9 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.service;
 
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Сервис для работы с сущностью Банк
  */
@@ -99,4 +102,19 @@ public interface BankService {
      * @param bank банк, информацию о котором, нужно вывести в консоль
      */
     public void printInfo(Bank bank);
+
+    /**
+     * Логика одобрения кредита банком для кредитного счёта
+     * @param bank  банк, который выдает кредит
+     * @param account кредитный счет
+     * @param employee работник, который выдает кредит
+     * @return true, если кредит был одобрен, false -- в противном случае
+     */
+    public boolean approveCredit(Bank bank, CreditAccount account, double moneyAmount, Employee employee);
+
+    public boolean withdrawCredit(Bank bank, CreditAccount account, Employee employee, BankOffice bankOffice, User user);
+
+    public boolean isBankSuitable(Bank bank, Double amount);
+
+    public List<Bank> selectBanks(Map<Integer, Bank> banks, Double amount, int monthsCount);
 }

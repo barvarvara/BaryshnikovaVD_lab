@@ -1,5 +1,6 @@
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.*;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl.*;
 
@@ -29,13 +30,13 @@ public class Main {
             banks.put(bank.getId(), bank);
 
             for (int j = 0; j < BANK_OFFICES_NUM; j++) {
-                BankOffice bankOffice = bankOfficeService.create("Офис №" + j + " " + bank.getName(), "Адрес " + j, true, true, true, true, true, 10000000, 10000, bank);
+                BankOffice bankOffice = bankOfficeService.create("Офис №" + j + " " + bank.getName(), "Адрес " + j, true, true, true, true, true, 100000, 20000, bank);
                 bankService.addBankOffice(bank, bankOffice);
 
                 for (int k = 0; k < EMPLOYEE_NUM; k++) {
                     LocalDate birthday = LocalDate.of(random.nextInt(1990, 2002), random.nextInt(1, 13), random.nextInt(1, 29));
                     String name = NAMES.get(random.nextInt(NAMES.size()));
-                    Employee employee = employeeService.create(name, birthday, JobName.getRandom(), bank, false, bankOffice, true, random.nextInt(80000, 160000));
+                    Employee employee = employeeService.create(name, birthday, JobName.getRandom(), bank, false, bankOffice, random.nextInt(80000, 160000));
 
                     bankService.addEmployee(bank, employee);
                     bankOfficeService.addEmployee(bankOffice, employee);
@@ -96,7 +97,8 @@ public class Main {
             System.out.println("\nВыберите действие: ");
             System.out.println("1 - Посмотреть информацию о банке ");
             System.out.println("2 - Посмотреть информацию о клиенте банка ");
-            System.out.println("3 - Выйти из системы");
+            System.out.println("3 - Взять кредит");
+            System.out.println("0 - Выйти из системы");
 
             int action = scanner.nextInt();
 
@@ -122,21 +124,139 @@ public class Main {
                         System.out.println(user.getId() + " - " + user.getFcs());
 
                     System.out.println("\nВведите id клиента: ");
-                    int userId = scanner.nextInt();
+                    int selectedUserId = scanner.nextInt();
 
-                    System.out.println(users.get(userId));
-                    userService.printAccounts(users.get(userId));
+                    System.out.println(users.get(selectedUserId));
+                    userService.printAccounts(users.get(selectedUserId));
 
                     break;
                 case 3:
+                    System.out.println("\nВыберите клиента: ");
+                    for (User user : users.values())
+                        System.out.println(user.getId() + " - " + user.getFcs());
+
+                    System.out.println("\nВведите id: ");
+                    int userId = scanner.nextInt();
+
+                    System.out.println("Информация о клиенте: ");
+                    User user = users.get(userId);
+                    try {
+                        if (user != null)
+                            System.out.print(user);
+                        else
+                            throw new NotFoundException("Пользователь с id=" + userId);
+                    } catch (NotFoundException e) {
+                        System.err.println(e.getMessage());
+                        return;
+                    }
+
+                    System.out.println("\n\nВведите сумму кредита: ");
+                    double creditAmount = scanner.nextDouble();
+
+                    System.out.println("\nВведите количество месяцев, на которые хотите взять кредит: ");
+                    int monthsCount = scanner.nextInt();
+
+                    List<Bank> selectedBanks = bankService.selectBanks(banks, creditAmount, monthsCount);
+                    System.out.println("\nВыберите банк из списка: \n");
+                    for (Bank bank : selectedBanks) {
+                        System.out.println("Банк №" + bank.getId() + ":\n" + bank);
+                    }
+
+                    System.out.println("\nВведите id банка: ");
+                    int scannedBankId = scanner.nextInt();
+
+                    try {
+                        if (scannedBankId < selectedBanks.size()) {
+                            Bank selectedBank = selectedBanks.get(scannedBankId);
+                            System.out.println("\nВыберите банковский офис: \n");
+                            List<BankOffice> bankOffices = selectedBank.getBankOffices();
+                            for (BankOffice bankOffice : bankOffices)
+                                System.out.println("Офис №" + bankOffice.getId() + ":\n" + bankOffice);
+
+                            System.out.println("\nВведите id банковского офиса: ");
+                            int scannedBankOfficeId = scanner.nextInt();
+                            BankOffice selectedOffice;
+
+                            try {
+                                selectedOffice = bankOffices.stream().filter((bankOffice -> bankOffice.getId() == scannedBankOfficeId)).toList().get(0);
+
+                                if (selectedOffice != null) {
+                                    if (bankOfficeService.checkBankOffice(selectedOffice, creditAmount))
+                                        System.out.println("\nВыбран офис №" + selectedOffice.getId() + ":\n" + selectedOffice);
+                                } else
+                                    throw new BankOfficeException("Неверный id банка офиса!", scannedBankOfficeId);
+                            } catch (BankOfficeException e) {
+                                System.err.println(e.getMessage());
+                                return;
+                            }
+
+                            List<Employee> officeEmployees = selectedOffice.getEmployees().stream().filter((Employee::canWithdrawCredit)).toList();
+
+                            try {
+                                if (officeEmployees.isEmpty())
+                                    throw new BankOfficeException("В офисе нет сотрудников, выдающих кредиты.", selectedOffice.getId());
+                            } catch (BankOfficeException e) {
+                                System.err.println(e.getMessage());
+                                return;
+                            }
+
+                            Employee officeEmployee = officeEmployees.get(0);
+                            System.out.println("Вам назначен сотрудник для выдачи кредита: id=" + officeEmployee.getId() + " " +officeEmployee.getFcs() + "\n");
+
+
+                            PaymentAccount paymentAccount;
+                            try {
+                                paymentAccount = userService.getBestPaymentAccount(user, selectedBank.getId());
+                            } catch (PaymentAccountNotFoundException e) {
+                                paymentAccount = paymentAccountService.create(user, selectedBank, 0);
+                                userService.addPaymentAccount(user, paymentAccount);
+                            }
+
+                            CreditAccount creditAccount = creditAccountService.create(user, selectedBank, LocalDate.now(), monthsCount, creditAmount, 0, 0, officeEmployee, paymentAccount);
+
+                            System.out.println("Одобряем кредит...");
+
+                            try {
+                                if (bankService.approveCredit(selectedBank, creditAccount, creditAmount, officeEmployee)) {
+                                    System.out.println("Кредит был одобрен! \n");
+                                } else {
+                                    System.out.println("Кредит не был одобрен.");
+                                }
+                            } catch (CreditException | NotFoundException e) {
+                                System.err.println(e.getMessage());
+                                return;
+                            }
+
+                            System.out.println("Оформляем кредит...");
+                            try {
+                                if (bankService.withdrawCredit(selectedBank, creditAccount, officeEmployee, selectedOffice, user)) {
+                                    System.out.println("Вам был выдан кредит. \n" + "Ваш кредитный счёт: №" + creditAccount.getId() + "\n\n" + creditAccount);
+                                } else {
+                                    System.out.println("Кредит не был оформлен.");
+                                }
+                            } catch (CreditException | NotFoundException e) {
+                                System.err.println(e.getMessage());
+                                return;
+                            }
+
+                        } else {
+                            throw new BankException("Неверный id банка");
+                        }
+                    } catch (BankException e) {
+                        System.err.println(e.getMessage());
+                        return;
+                    }
+
+                    break;
+                case 0:
                     quitProgram = true;
                     break;
                 default:
-                    System.out.println("\nНеизвестная команда.\n");
-
+                    System.err.println("\nНеизвестная команда.\n");
             }
         }
 
-    }
+        scanner.close();
 
+    }
 }

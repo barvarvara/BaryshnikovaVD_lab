@@ -1,10 +1,12 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.PaymentAccountNotFoundException;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.UserService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import static tech.reliab.course.BaryshnikovaVD_lab.bank.utils.Constants.MAX_MONTHLY_INCOME;
 
@@ -125,6 +127,27 @@ public class UserServiceImpl implements UserService {
         if (creditAccounts != null) {
             System.out.println("Кредитные счета: \n");
             creditAccounts.forEach(System.out::println);
+        }
+
+    }
+
+    @Override
+    public PaymentAccount getBestPaymentAccount(User user, int bankId) {
+        List<PaymentAccount> selectedPaymentAccounts = user.getPaymentAccounts().stream().filter(paymentAccount -> paymentAccount.getBank().getId() == bankId).toList();
+
+        if (!selectedPaymentAccounts.isEmpty()) {
+            PaymentAccount bestPaymentAccount = selectedPaymentAccounts.get(0);
+
+            for (int i = 1; i < selectedPaymentAccounts.size(); i++) {
+                PaymentAccount currentPaymentAccount = selectedPaymentAccounts.get(i);
+                if (bestPaymentAccount.getBalance() < currentPaymentAccount.getBalance()) {
+                    bestPaymentAccount = currentPaymentAccount;
+                }
+            }
+
+            return bestPaymentAccount;
+        } else {
+            throw new PaymentAccountNotFoundException();
         }
 
     }

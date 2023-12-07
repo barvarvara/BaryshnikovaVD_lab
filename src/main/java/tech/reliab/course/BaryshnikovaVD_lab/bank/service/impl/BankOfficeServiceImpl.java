@@ -4,6 +4,7 @@ import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.Bank;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.BankAtm;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.BankOffice;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.Employee;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.BankOfficeException;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankOfficeService;
 
 import java.util.ArrayList;
@@ -139,6 +140,25 @@ public class BankOfficeServiceImpl implements BankOfficeService {
         bankOffice.getBank().setTotalAmountMoney(bankOffice.getBank().getTotalAmountMoney() + moneyAmount);
 
         return true;
+    }
+
+    @Override
+    public boolean checkBankOffice(BankOffice bankOffice, double creditAmount) throws BankOfficeException {
+        if (!bankOffice.isCreditAvailable())
+            throw new BankOfficeException("В банковском офисе невозможно оформить кредит", bankOffice.getId());
+
+        if (!bankOffice.isWorking())
+            throw new BankOfficeException("Банковский офис не работает", bankOffice.getId());
+
+        if (creditAmount > bankOffice.getMoneyAmount())
+            throw new BankOfficeException("\nВ банковском офисе недостаточно средств.", bankOffice.getId());
+
+        return true;
+    }
+
+    @Override
+    public boolean isBankOfficeSuitable(BankOffice bankOffice, double moneyAmount) {
+        return bankOffice.isCreditAvailable() && bankOffice.isWorking() && moneyAmount <= bankOffice.getMoneyAmount();
     }
 
     @Override

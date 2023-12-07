@@ -13,27 +13,28 @@ public class Employee extends Human {
     private boolean canWithdrawCredit;
     private double salaryAmount;
 
-    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canWithdrawCredit, double salaryAmount) {
+    public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, double salaryAmount) {
         super(fcs, birthday);
         this.jobName = jobName;
         this.bank = bank;
         this.isWorkingAtHome = isWorkingAtHome;
-        this.canWithdrawCredit = canWithdrawCredit;
+        this.canWithdrawCredit = (jobName == JobName.CREDIT_EXPERT);
         this.salaryAmount = salaryAmount;
         this.bankOffice = bankOffice;
     }
 
     public Employee(Employee employee) {
-        this(employee.fcs, employee.birthday, employee.jobName, employee.bank, employee.isWorkingAtHome, employee.bankOffice, employee.canWithdrawCredit, employee.salaryAmount);
+        this(employee.fcs, employee.birthday, employee.jobName, employee.bank, employee.isWorkingAtHome, employee.bankOffice, employee.salaryAmount);
     }
 
     @Override
     public String toString() {
-        return "Информация о сотруднике банка" + "\n" +
-                "id: " + id + "\n" +
+        return "id: " + id + "\n" +
                 "ФИО: " + fcs + "\n" +
                 "День рождения: " + birthday.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + '\n' +
-                "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" : ((jobName == JobName.PROGRAMMER) ? "программист" : "консультант")) + "\n" +
+                "Должность: " + ((jobName == JobName.MANAGER) ? "менеджер" :
+                                ((jobName == JobName.PROGRAMMER) ? "программист" :
+                                ((jobName == JobName.CREDIT_EXPERT) ? "кредитный специалист" : "консультант"))) + "\n" +
                 "В каком банке работает: " + bank.getName() + "\n" +
                 "Работает: " + (isWorkingAtHome ? "удаленно" : "в банковском офисе") + "\n" +
                 (bankOffice != null ? ("Банковский офис: " + "№" + bankOffice.getId() + " " + bankOffice.getName()) : "Сотрудник не прикреплен к офису банка") + "\n" +
@@ -73,7 +74,7 @@ public class Employee extends Human {
         this.jobName = jobName;
     }
 
-    public boolean isCanWithdrawCredit() {
+    public boolean canWithdrawCredit() {
         return canWithdrawCredit;
     }
 
