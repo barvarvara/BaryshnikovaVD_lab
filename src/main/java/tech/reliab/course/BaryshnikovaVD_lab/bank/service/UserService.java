@@ -21,4 +21,6 @@ public interface UserService {
     boolean deletePaymentAccount(User user, PaymentAccount paymentAccount);
 
     void printAccounts(User user);
+
+    public PaymentAccount getBestPaymentAccount(User user, int bankId);
 }

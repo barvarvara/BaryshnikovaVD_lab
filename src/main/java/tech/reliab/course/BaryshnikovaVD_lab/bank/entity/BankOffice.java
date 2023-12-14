@@ -42,8 +42,7 @@ public class BankOffice {
 
     @Override
     public String toString() {
-        return "Информация об офисе банка" + "\n" +
-                "id: " + id + "\n" +
+        return "id: " + id + "\n" +
                 "Название: " + name + "\n" +
                 "Адрес: " + address + "\n" +
                 "Банк: " + bank.getName() + "\n" +
@@ -57,7 +56,6 @@ public class BankOffice {
                 "Кол-во денег: " + String.format("%.2f", moneyAmount) + "\n" +
                 "Стоимость аренды: " + String.format("%.2f", rentPrice) + "\n";
     }
-
 
 
     public String getName() {

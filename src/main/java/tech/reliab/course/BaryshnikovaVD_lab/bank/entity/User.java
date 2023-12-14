@@ -34,7 +34,7 @@ public class User extends Human {
 
     @Override
     public String toString() {
-        StringBuilder logString = new StringBuilder("Информация о клиенте банка:\n" +
+        StringBuilder logString = new StringBuilder(
                 "id: " + id + "\n" +
                 "ФИО: " + fcs + '\n' +
                 "День рождения: " + birthday.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + '\n' +

@@ -8,7 +8,7 @@ import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.JobName;
 import java.time.LocalDate;
 
 public interface EmployeeService {
-    Employee create(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canWithdrawCredit, double salaryAmount);
+    Employee create(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, double salaryAmount);
 
     void delete(Employee employee);
 }

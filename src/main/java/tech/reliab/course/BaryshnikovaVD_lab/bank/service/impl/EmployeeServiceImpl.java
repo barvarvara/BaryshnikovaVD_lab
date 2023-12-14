@@ -10,8 +10,8 @@ import java.time.LocalDate;
 
 public class EmployeeServiceImpl implements EmployeeService {
     @Override
-    public Employee create(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, boolean canWithdrawCredit, double salaryAmount) {
-        return new Employee(fcs, birthday, jobName, bank, isWorkingAtHome, bankOffice, canWithdrawCredit, salaryAmount);
+    public Employee create(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, double salaryAmount) {
+        return new Employee(fcs, birthday, jobName, bank, isWorkingAtHome, bankOffice, salaryAmount);
     }
 
     @Override

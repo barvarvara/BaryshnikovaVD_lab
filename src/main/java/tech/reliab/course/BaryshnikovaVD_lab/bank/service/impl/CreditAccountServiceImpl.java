@@ -17,6 +17,16 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     }
 
     @Override
+    public CreditAccount create(User user, Bank bank, LocalDate startDate, int monthsCount, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
+        if (bank == null) {
+            System.out.println("Ошибка! Невозможно создать счёт без банка");
+            return null;
+        }
+
+        return new CreditAccount(user, bank, startDate, monthsCount, creditAmount, monthlyPayment, interestRate, bankEmployee, paymentAccount);
+    }
+
+    @Override
     public void delete(CreditAccount account) {
         account.setBank(null);
         account.setUser(null);

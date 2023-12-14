@@ -21,4 +21,8 @@ public interface BankOfficeService {
     boolean withdrawMoney(BankOffice bankOffice, double moneyAmount);
 
     boolean depositMoney(BankOffice bankOffice, double moneyAmount);
+
+    boolean checkBankOffice(BankOffice bankOffice, double moneyAmount);
+
+    boolean isBankOfficeSuitable(BankOffice bankOffice, double moneyAmount);
 }

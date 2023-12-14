@@ -2,6 +2,9 @@ package tech.reliab.course.BaryshnikovaVD_lab.bank.service;
 
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Сервис для работы с сущностью Банк
  */
@@ -98,5 +101,41 @@ public interface BankService {
      *
      * @param bank банк, информацию о котором, нужно вывести в консоль
      */
-    public void printInfo(Bank bank);
+    void printInfo(Bank bank);
+
+    /**
+     * Логика одобрения кредита банком bank для кредитного счёта account на сумму moneyAmount
+     * @param bank  банк, который выдает кредит
+     * @param account кредитный счет
+     * @param employee работник, который выдает кредит
+     * @return true, если кредит был одобрен, false -- в противном случае
+     */
+    boolean approveCredit(Bank bank, CreditAccount account, double moneyAmount, Employee employee);
+
+    /**
+     * Логика выдачи кредита банком
+     * @param bank  банк, который выдает кредит
+     * @param account кредитный счет
+     * @param employee сотрудник, который выдает кредит
+     * @param bankOffice офис банка, в котором работает сотрудник
+     * @param user клиент, который подал заявку на выдачу кредита
+     * @return true, если кредит был оформлен, false -- в противном случае
+     */
+    boolean withdrawCredit(Bank bank, CreditAccount account, Employee employee, BankOffice bankOffice, User user);
+
+    /**
+     * Определяет, подходит ли банк для выдачи кредита на сумму amount
+     * @param bank  банк, который выдает кредит
+     * @param amount сумма кредита
+     * @return true, если кредит банк подходит, false -- в противном случае
+     */
+    boolean isBankSuitable(Bank bank, Double amount);
+
+    /**
+     * Подбирает банки, подходящие для выдачи кредита на сумму amount, для его погашения за monthsCount месяцев
+     * @param banks  все банки в системе
+     * @param amount сумма, на которую берётся кредит
+     * @param monthsCount количество месяцев, на которые клиент хочет взять кредит
+     */
+    List<Bank> selectBanks(Map<Integer, Bank> banks, Double amount, int monthsCount);
 }

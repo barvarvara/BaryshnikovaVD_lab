@@ -1,11 +1,13 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
-import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankOfficeService;
-import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankService;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.BankAtmStatus;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.CreditException;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.NotFoundException;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.service.*;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.time.LocalDate;
+import java.util.*;
 
 import static tech.reliab.course.BaryshnikovaVD_lab.bank.utils.Constants.*;
 
@@ -141,7 +143,6 @@ public class BankServiceImpl implements BankService {
     }
 
 
-
     @Override
     public boolean addEmployee(Bank bank, Employee employee) {
         if (bank == null || employee == null) {
@@ -232,7 +233,7 @@ public class BankServiceImpl implements BankService {
         }
 
         System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("\nИнформация о банке: \n" + bank.toString());
+        System.out.println("\nИнформация о банке: \n" + bank);
 
         System.out.println("Офисы банка: \n");
         ArrayList<BankOffice> bankOffices = bank.getBankOffices();
@@ -251,7 +252,91 @@ public class BankServiceImpl implements BankService {
         users.forEach((System.out::println));
 
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+    }
 
+
+    @Override
+    public boolean approveCredit(Bank bank, CreditAccount account, double moneyAmount, Employee employee) throws CreditException, NotFoundException {
+        if (account != null && bank != null && employee != null) {
+            double creditMoneyAmount = account.getCreditAmount();
+
+            if (bank.getTotalAmountMoney() >= creditMoneyAmount) {
+                double paymentPerMonth = creditMoneyAmount * (bank.getInterestRate() / 100 + 1) / account.getMonthsCount();
+
+                if (account.getUser().getMonthlyIncome() >= paymentPerMonth) {
+                    if (account.getUser().getCreditRating() < 5000 && bank.getRating() > 50) {
+                        throw new CreditException("Слишком низкий рейтинг для выдачи кредита: рейтинг клиента = " + account.getUser().getCreditRating() + ", рейтинг банка = " + bank.getRating());
+                    }
+
+                    account.setBankEmployee(employee);
+                    account.setMonthlyPayment(paymentPerMonth);
+                    account.setBank(bank);
+                    account.setInterestRate(bank.getInterestRate());
+
+                    LocalDate dateEnd = account.getStartDate();
+                    dateEnd = dateEnd.plusMonths(account.getMonthsCount());
+                    account.setEndDate(dateEnd);
+
+                    return true;
+                } else {
+                    throw new CreditException("У клиента недостаточный ежемесячный доход: " + account.getUser().getMonthlyIncome() + " < " + paymentPerMonth);
+                }
+            }
+        } else {
+            throw new NotFoundException("Аккаунт, банк или сотрудник банка");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean withdrawCredit(Bank bank, CreditAccount account, Employee employee, BankOffice bankOffice, User user) throws NotFoundException {
+        if (account != null && bank != null && employee != null) {
+            List<BankAtm> bankAtms = bankOffice.getBankAtms();
+
+            for (BankAtm atm : bankAtms) {
+                if (atm.getStatus() == BankAtmStatus.WORK && atm.getMoneyAmount() >= account.getCreditAmount()) {
+                    UserService userService = new UserServiceImpl();
+                    userService.addCreditAccount(user, account);
+
+                    AtmService atmService = new AtmServiceImpl();
+                    atmService.withdrawMoney(atm, account.getCreditAmount());
+
+                    return true;
+                }
+            }
+        } else {
+            throw new NotFoundException("Аккаунт, банк или сотрудник банка");
+        }
+
+        throw new NotFoundException("Подходящий банкомат");
+    }
+
+    @Override
+    public boolean isBankSuitable(Bank bank, Double amount) {
+        List<BankOffice> bankOffices = bank.getBankOffices();
+        List<BankOffice> bankOfficesSuitable = new ArrayList<>();
+        BankOfficeService bankOfficeService = new BankOfficeServiceImpl();
+
+        for (BankOffice bankOffice : bankOffices) {
+            if (bankOfficeService.isBankOfficeSuitable(bankOffice, amount)) {
+                bankOfficesSuitable.add(bankOffice);
+            }
+        }
+
+        return !(bankOfficesSuitable.isEmpty());
+    }
+
+    @Override
+    public List<Bank> selectBanks(Map<Integer, Bank> banks, Double amount, int monthsCount) throws CreditException {
+        List<Bank> selectedBanks = new ArrayList<>();
+        for (Bank bank : banks.values())
+            if (isBankSuitable(bank, amount))
+                selectedBanks.add(bank);
+
+        if (selectedBanks.isEmpty())
+            throw new CreditException("Не найдено ни одного подходящего банка для получения кредита с параметрами: сумма кредита=" + amount + " кол-во месяцев=" + monthsCount);
+
+        return selectedBanks;
     }
 
 
