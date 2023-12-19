@@ -5,7 +5,9 @@ import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.CreditAccount;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.PaymentAccount;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.User;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
+import java.util.Map;
 
 public interface UserService {
     User create(String fcs, LocalDate birthday, String workplace);
@@ -22,5 +24,7 @@ public interface UserService {
 
     void printAccounts(User user);
 
-    public PaymentAccount getBestPaymentAccount(User user, int bankId);
+    PaymentAccount getBestPaymentAccount(User user, int bankId);
+
+    boolean exportUserAccountsToTxtFile(User user, Bank bank);
 }

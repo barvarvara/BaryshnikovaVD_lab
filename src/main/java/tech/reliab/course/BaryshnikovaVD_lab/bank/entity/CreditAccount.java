@@ -1,16 +1,34 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class CreditAccount extends Account {
+    @Expose(serialize = false)
     private LocalDate startDate;
+
+    @Expose(serialize = false)
     private LocalDate endDate;
+
+    @Expose(serialize = true)
     private int monthsCount;
+
+    @Expose(serialize = true)
     private double creditAmount;
+
+    @Expose(serialize = true)
     private double monthlyPayment;
+
+    @Expose(serialize = true)
     private double interestRate;
+
+    @Expose(serialize = true)
     private Employee bankEmployee;
+
+    @Expose(serialize = true)
     private PaymentAccount paymentAccount;
 
     public CreditAccount(User user, Bank bank, LocalDate startDate, LocalDate endDate, int monthsCount, double creditAmount, double monthlyPayment, double interestRate, Employee bankEmployee, PaymentAccount paymentAccount) {
@@ -55,6 +73,22 @@ public class CreditAccount extends Account {
                 "Процентная ставка: " + String.format("%.2f", interestRate) + "\n" +
                 "Сотрудник, который выдал кредит: " + bankEmployee.getFcs() + "\n" +
                 "Платежный счет: " + "№" + paymentAccount.getId() + " " + paymentAccount.getBank().getName() + "\n";
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", id);
+        jsonObject.add("user", user.toJson());
+        jsonObject.add("bank", bank.toJson());
+        jsonObject.addProperty("monthsCount", monthsCount);
+        jsonObject.addProperty("creditAmount", creditAmount);
+        jsonObject.addProperty("monthlyPayment", monthlyPayment);
+        jsonObject.addProperty("interestRate", interestRate);
+        jsonObject.add("bankEmployee", bankEmployee.toJson());
+        jsonObject.add("paymentAccount", paymentAccount.toJson());
+
+        return jsonObject;
     }
 
     public double getCreditAmount() {

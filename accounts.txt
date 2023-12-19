@@ -1,0 +1,76 @@
+[]
+[
+  {
+    "id": 266,
+    "user": {
+      "id": 109,
+      "fcs": "Семён",
+      "creditRating": 2600,
+      "workplace": "Место работы 4",
+      "monthlyIncome": 25913.68611848939
+    },
+    "bank": {
+      "id": 4,
+      "name": "Банк 4",
+      "rating": 47,
+      "totalAmountMoney": 412842.19078949315,
+      "interestRate": 10.576630251390009
+    },
+    "monthsCount": 38,
+    "creditAmount": 2.0E7,
+    "monthlyPayment": 25000.0,
+    "interestRate": 9.6,
+    "bankEmployee": {
+      "id": 140,
+      "fcs": "Анна",
+      "jobName": "MANAGER",
+      "bank": {
+        "id": 4,
+        "name": "Банк 4",
+        "rating": 47,
+        "totalAmountMoney": 412842.19078949315,
+        "interestRate": 10.576630251390009
+      },
+      "isWorkingAtHome": false,
+      "canWithdrawCredit": false,
+      "salaryAmount": 107727.0,
+      "bankOffice": {
+        "id": 14,
+        "name": "Офис №2 Банк 4",
+        "address": "Адрес 2",
+        "bank": {
+          "id": 4,
+          "name": "Банк 4",
+          "rating": 47,
+          "totalAmountMoney": 412842.19078949315,
+          "interestRate": 10.576630251390009
+        },
+        "isWorking": true,
+        "isPossibleToPlaceAtm": true,
+        "isCreditAvailable": true,
+        "isMoneyWithdrawAvailable": true,
+        "isDepositMoneyAvailable": true,
+        "moneyAmount": 100000.0,
+        "rentPrice": 20000.0
+      }
+    },
+    "paymentAccount": {
+      "id": 265,
+      "balance": 1000000.0,
+      "user": {
+        "id": 109,
+        "fcs": "Семён",
+        "creditRating": 2600,
+        "workplace": "Место работы 4",
+        "monthlyIncome": 25913.68611848939
+      },
+      "bank": {
+        "id": 2,
+        "name": "Банк 2",
+        "rating": 42,
+        "totalAmountMoney": 233003.31824771492,
+        "interestRate": 16.003969046813037
+      }
+    }
+  }
+]

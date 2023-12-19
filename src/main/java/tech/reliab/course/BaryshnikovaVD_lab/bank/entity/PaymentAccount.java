@@ -1,6 +1,10 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
+
 public class PaymentAccount extends Account {
+    @Expose(serialize = true)
     private double balance;
 
     public PaymentAccount(User user, Bank bank) {
@@ -32,5 +36,16 @@ public class PaymentAccount extends Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("balance", balance);
+        jsonObject.add("user", user.toJson());
+        jsonObject.add("bank", bank.toJson());
+
+        return jsonObject;
     }
 }

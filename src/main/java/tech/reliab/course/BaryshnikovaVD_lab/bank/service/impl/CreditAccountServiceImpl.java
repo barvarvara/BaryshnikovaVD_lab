@@ -1,9 +1,20 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankService;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.CreditAccountService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
@@ -59,5 +70,51 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         account.setCreditAmount(account.getCreditAmount() - monthlyPayment);
 
         return true;
+    }
+
+    @Override
+    public boolean transferAccountToAnotherBank(String fileName, Bank otherBank, Map<Integer, User> users, Map<Integer, Bank> banks) throws FileNotFoundException {
+        File file = new File(fileName);
+
+        if (!file.exists())
+            throw new FileNotFoundException(fileName);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        JsonReader jsonReader = new JsonReader(new FileReader(fileName));
+
+        CreditAccount[] creditAccountsJson = gson.fromJson(jsonReader, CreditAccount[].class);
+
+        List<CreditAccount> creditAccounts = Arrays.asList(creditAccountsJson);
+
+        for (CreditAccount creditAccountFrom : creditAccounts) {
+            User paymentAccountUser = users.get(creditAccountFrom.getPaymentAccount().getUser().getId());
+            ArrayList<CreditAccount> userCreditAccounts = paymentAccountUser.getCreditAccounts();
+            int creditAccountId = creditAccountFrom.getId();
+            int creditAccountIdx = paymentAccountUser.getCreditAccountIdxById(creditAccountId);
+
+            CreditAccount creditAccountToPay = userCreditAccounts.get(creditAccountIdx);
+
+            if (creditAccountToPay.getBank().getId() == otherBank.getId()) {
+                System.out.println("id = " + creditAccountToPay.getId() + " уже был связан с этим банком!");
+                return false;
+            } else {
+                creditAccountToPay.setBank(otherBank);
+                creditAccountToPay.getPaymentAccount().setBank(otherBank);
+            }
+
+            User userInAccount = users.get(creditAccountToPay.getUser().getId());
+            int userBankId = userInAccount.getBank().getId();
+            Bank userBank = banks.get(userBankId);
+
+            if (userBankId != otherBank.getId()) {
+                BankService bankService = new BankServiceImpl();
+                bankService.deleteUser(userBank, userInAccount);
+                bankService.addUser(otherBank, userInAccount);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,12 +1,20 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class Human {
     private static int currentId;
+
+    @Expose(serialize = true)
     protected int id;
+
+    @Expose(serialize = true)
     protected String fcs;
+
+    @Expose(serialize = false)
     protected LocalDate birthday;
 
     public Human() {

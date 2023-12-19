@@ -1,10 +1,19 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Account {
     private static int currentId;
+
+    @Expose(serialize = true)
     protected int id;
+
+    @Expose(serialize = true)
     protected User user;
+
+    @Expose(serialize = true)
     protected Bank bank;
 
     public Account() {

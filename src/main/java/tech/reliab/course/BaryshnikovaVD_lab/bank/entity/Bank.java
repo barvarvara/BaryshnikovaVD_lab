@@ -1,5 +1,8 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -15,46 +18,55 @@ public class Bank {
     /**
      * Поле id
      */
+    @Expose(serialize = true)
     private int id;
 
     /**
      * Название банка
      */
+    @Expose(serialize = true)
     private String name;
 
     /**
      * Массив банкоматов банка
      */
+    @Expose(serialize = false)
     private ArrayList<BankAtm> bankAtms;
 
     /**
      * Массив офисов банка
      */
+    @Expose(serialize = false)
     private ArrayList<BankOffice> bankOffices;
 
     /**
      * Массив сотрудников банка
      */
+    @Expose(serialize = false)
     private ArrayList<Employee> employees;
 
     /**
      * Массив клиентов банка
      */
+    @Expose(serialize = false)
     private ArrayList<User> users;
 
     /**
      * Рейтинг банка
      */
+    @Expose(serialize = true)
     private int rating;
 
     /**
      * Всего денег в банке
      */
+    @Expose(serialize = true)
     private double totalAmountMoney;
 
     /**
      * Процентная ставка
      */
+    @Expose(serialize = true)
     private double interestRate;
 
     /**
@@ -99,6 +111,18 @@ public class Bank {
                 "Кол-во клиентов: " + users.size() + "\n" +
                 "Всего денег в банке: " + String.format("%.2f", totalAmountMoney) + "\n" +
                 "Процентная ставка: " + String.format("%.2f", interestRate) + "\n";
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("name", name);
+        jsonObject.addProperty("rating", rating);
+        jsonObject.addProperty("totalAmountMoney", totalAmountMoney);
+        jsonObject.addProperty("interestRate", interestRate);
+
+        return jsonObject;
     }
 
     public String getName() {

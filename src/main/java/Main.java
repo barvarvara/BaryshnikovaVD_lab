@@ -4,6 +4,7 @@ import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl.*;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -87,6 +88,7 @@ public class Main {
                 CreditAccount creditAccount = creditAccountService.create(user, bank, creditStartDate, creditEndDate, 38, 20000000, 25000, 9.6, employee, paymentAccount);
 
                 userService.addCreditAccount(user, creditAccount);
+                user.setBank(bank);
             }
         }
 
@@ -98,6 +100,8 @@ public class Main {
             System.out.println("1 - Посмотреть информацию о банке ");
             System.out.println("2 - Посмотреть информацию о клиенте банка ");
             System.out.println("3 - Взять кредит");
+            System.out.println("4 - Вывести все счета пользователя по конкретному банку в файл ");
+            System.out.println("5 - Перенести счет из одного банка в другой");
             System.out.println("0 - Выйти из системы");
 
             int action = scanner.nextInt();
@@ -262,6 +266,73 @@ public class Main {
                         System.err.println(e.getMessage());
                         return;
                     }
+                    break;
+                case 4:
+                    System.out.println("Выберите id пользователя: ");
+                    for (User user : users.values())
+                        System.out.println(user.getId() + " - " + user.getFcs());
+
+                    System.out.println("\nВведите id: ");
+                    int userId = scanner.nextInt();
+
+                    System.out.println("\nИнформация о пользователе: ");
+                    User user = users.get(userId);
+                    System.out.print(user);
+
+                    Map<Integer, String> userAccountsBanks = new HashMap<>();
+                    for (PaymentAccount paymentAccount : user.getPaymentAccounts())
+                        if (!userAccountsBanks.containsKey(paymentAccount.getBank().getId()))
+                            userAccountsBanks.put(paymentAccount.getBank().getId(), paymentAccount.getBank().getName());
+                    for (CreditAccount creditAccount : user.getCreditAccounts())
+                        if (!userAccountsBanks.containsKey(creditAccount.getBank().getId()))
+                            userAccountsBanks.put(creditAccount.getBank().getId(), creditAccount.getBank().getName());
+
+                    System.out.println("\n\nВыберите банк:  ");
+                    for (int id : userAccountsBanks.keySet())
+                        System.out.println("id = " + id + " " + userAccountsBanks.get(id));
+
+                    System.out.println("\nВведите id банка:  ");
+                    bankId = scanner.nextInt();
+
+                    Bank bank = banks.get(bankId);
+
+                    boolean hasEndedWithSuccess = userService.exportUserAccountsToTxtFile(user, bank);
+
+                    if (hasEndedWithSuccess) {
+                        System.out.println("Вывод счетов в файл прошёл успешно");
+                    } else {
+                        System.out.println("Ошибка! Вывод счетов завершился с ошибкой");
+                    }
+
+                    break;
+                case 5:
+                    scanner.nextLine();
+//                    System.out.println("Введите название файла: ");
+//                    String fileName = scanner.nextLine();
+                    String fileName = "account.txt";
+                    System.out.println("\nИнформация о счете берется из файла account.txt");
+
+                    System.out.println("\nВыберите банк:");
+                    for (Bank bankToChange : banks.values())
+                        System.out.println("id = " + bankToChange.getId() + " " + bankToChange.getName());
+
+                    System.out.println("\n\nВведите id банка:");
+                    int otherBankId = scanner.nextInt();
+                    Bank otherBank = banks.get(otherBankId);
+
+                    try {
+                        hasEndedWithSuccess = creditAccountService.transferAccountToAnotherBank(fileName, otherBank, users, banks);
+
+                        if (hasEndedWithSuccess) {
+                            System.out.println("Перенос счета из одного банка в другой прошёл успешно");
+                        } else {
+                            System.out.println("Ошибка! Перенос счета из одного банка в другой завершился с ошибкой");
+                        }
+                    } catch (FileNotFoundException e) {
+                        System.err.println(e.getMessage());
+                        return;
+                    }
+
                     break;
                 case 0:
                     quitProgram = true;

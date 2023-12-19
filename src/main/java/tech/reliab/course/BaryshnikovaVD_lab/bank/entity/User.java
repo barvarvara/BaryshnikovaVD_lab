@@ -1,27 +1,30 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class User extends Human {
+    @Expose(serialize = true)
     private String workplace;
+
+    @Expose(serialize = true)
     private double monthlyIncome;
-    private ArrayList<Bank> banks;
+
+    @Expose(serialize = false)
+    private Bank bank;
+
+    @Expose(serialize = false)
     private ArrayList<CreditAccount> creditAccounts;
+
+    @Expose(serialize = false)
     private ArrayList<PaymentAccount> paymentAccounts;
+
+    @Expose(serialize = true)
     private int creditRating;
-
-    public User() {
-        super();
-        monthlyIncome = 0;
-        creditRating = 0;
-        workplace = "";
-
-        this.banks = new ArrayList<>();
-        this.creditAccounts = new ArrayList<>();
-        this.paymentAccounts = new ArrayList<>();
-    }
 
     public User(String fcs, LocalDate birthday, String workplace) {
         super(fcs, birthday);
@@ -43,12 +46,11 @@ public class User extends Human {
                 "Кредитный рейтинг: " + creditRating + "\n"
         );
 
-        logString.append("Банки: ");
-        if (banks == null)
+        logString.append("Банк: ");
+        if (bank == null)
             logString.append("нет\n");
         else
-            for (Bank bank : this.banks)
-                logString.append("|").append(bank.getName()).append("| ");
+            logString.append("|").append(bank.getName()).append("| ");
 
         logString.append("\nПлатёжные счета: ");
         if (paymentAccounts == null)
@@ -67,6 +69,29 @@ public class User extends Human {
         return "\n" + logString;
     }
 
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("fcs", fcs);
+        jsonObject.addProperty("creditRating", creditRating);
+        jsonObject.addProperty("workplace", workplace);
+        jsonObject.addProperty("monthlyIncome", monthlyIncome);
+
+        return jsonObject;
+    }
+
+    public int getCreditAccountIdxById(int id) {
+        int index = 0;
+
+        for (CreditAccount creditAccount : creditAccounts) {
+            if (creditAccount.getId() == id)
+                return index;
+            index++;
+        }
+
+        return -1;
+    }
 
     public int getCreditRating() {
         return creditRating;
@@ -92,12 +117,12 @@ public class User extends Human {
         this.workplace = workplace;
     }
 
-    public ArrayList<Bank> getBanks() {
-        return banks;
+    public Bank getBank() {
+        return bank;
     }
 
-    public void setBanks(ArrayList<Bank> banks) {
-        this.banks = banks;
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 
     public ArrayList<CreditAccount> getCreditAccounts() {

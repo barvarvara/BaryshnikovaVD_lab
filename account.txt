@@ -1,0 +1,75 @@
+[
+  {
+    "id": 262,
+    "user": {
+      "id": 108,
+      "fcs": "Дмитрий",
+      "creditRating": 600,
+      "workplace": "Место работы 3",
+      "monthlyIncome": 5814.734462374185
+    },
+    "bank": {
+      "id": 1,
+      "name": "Банк 1",
+      "rating": 47,
+      "totalAmountMoney": 451956.23711678624,
+      "interestRate": 3.601534870394241
+    },
+    "monthsCount": 38,
+    "creditAmount": 2.0E7,
+    "monthlyPayment": 25000.0,
+    "interestRate": 9.6,
+    "bankEmployee": {
+      "id": 34,
+      "fcs": "Катерина",
+      "jobName": "MANAGER",
+      "bank": {
+        "id": 1,
+        "name": "Банк 1",
+        "rating": 47,
+        "totalAmountMoney": 451956.23711678624,
+        "interestRate": 3.601534870394241
+      },
+      "isWorkingAtHome": false,
+      "canWithdrawCredit": false,
+      "salaryAmount": 146100.0,
+      "bankOffice": {
+        "id": 3,
+        "name": "Офис №0 Банк 1",
+        "address": "Адрес 0",
+        "bank": {
+          "id": 1,
+          "name": "Банк 1",
+          "rating": 47,
+          "totalAmountMoney": 451956.23711678624,
+          "interestRate": 3.601534870394241
+        },
+        "isWorking": true,
+        "isPossibleToPlaceAtm": true,
+        "isCreditAvailable": true,
+        "isMoneyWithdrawAvailable": true,
+        "isDepositMoneyAvailable": true,
+        "moneyAmount": 100000.0,
+        "rentPrice": 20000.0
+      }
+    },
+    "paymentAccount": {
+      "id": 260,
+      "balance": 1000000.0,
+      "user": {
+        "id": 108,
+        "fcs": "Дмитрий",
+        "creditRating": 600,
+        "workplace": "Место работы 3",
+        "monthlyIncome": 5814.734462374185
+      },
+      "bank": {
+        "id": 1,
+        "name": "Банк 1",
+        "rating": 47,
+        "totalAmountMoney": 451956.23711678624,
+        "interestRate": 3.601534870394241
+      }
+    }
+  }
+]

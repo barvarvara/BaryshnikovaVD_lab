@@ -1,23 +1,51 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class BankOffice {
     private static int currentId;
 
+    @Expose(serialize = true)
     private int id;
+
+    @Expose(serialize = true)
     private String name;
+
+    @Expose(serialize = true)
     private String address;
+
+    @Expose(serialize = true)
     private boolean isWorking;
+
+    @Expose(serialize = true)
     private boolean isPossibleToPlaceAtm;
+
+    @Expose(serialize = true)
     private boolean isCreditAvailable;
+
+    @Expose(serialize = true)
     private boolean isMoneyWithdrawAvailable;
+
+    @Expose(serialize = true)
     private boolean isDepositMoneyAvailable;
+
+    @Expose(serialize = true)
     private double moneyAmount;
+
+    @Expose(serialize = true)
     private double rentPrice;
+
+    @Expose(serialize = false)
     private ArrayList<BankAtm> bankAtms;
+
+    @Expose(serialize = false)
     private ArrayList<Employee> employees;
+
+    @Expose(serialize = true)
     private Bank bank;
 
     public BankOffice(String name, String address, boolean isWorking, boolean isPossibleToPlaceAtm, boolean isCreditAvailable, boolean isMoneyWithdrawAvailable, boolean isDepositMoneyAvailable, double moneyAmount, double rentPrice, Bank bank) {
@@ -55,6 +83,24 @@ public class BankOffice {
                 (isDepositMoneyAvailable ? "Можно" : "Нельзя") + " внести деньги\n" +
                 "Кол-во денег: " + String.format("%.2f", moneyAmount) + "\n" +
                 "Стоимость аренды: " + String.format("%.2f", rentPrice) + "\n";
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("name", name);
+        jsonObject.addProperty("address", address);
+        jsonObject.add("bank", bank.toJson());
+        jsonObject.addProperty("isWorking", isWorking);
+        jsonObject.addProperty("isPossibleToPlaceAtm", isPossibleToPlaceAtm);
+        jsonObject.addProperty("isCreditAvailable", isCreditAvailable);
+        jsonObject.addProperty("isMoneyWithdrawAvailable", isMoneyWithdrawAvailable);
+        jsonObject.addProperty("isDepositMoneyAvailable", isDepositMoneyAvailable);
+        jsonObject.addProperty("moneyAmount", moneyAmount);
+        jsonObject.addProperty("rentPrice", rentPrice);
+
+        return jsonObject;
     }
 
 

@@ -1,16 +1,29 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.entity;
 
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.enums.JobName;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Employee extends Human {
+    @Expose(serialize = true)
     private JobName jobName;
+
+    @Expose(serialize = true)
     private Bank bank;
+
+    @Expose(serialize = true)
     private boolean isWorkingAtHome;
+
+    @Expose(serialize = true)
     private BankOffice bankOffice;
+
+    @Expose(serialize = true)
     private boolean canWithdrawCredit;
+
+    @Expose(serialize = true)
     private double salaryAmount;
 
     public Employee(String fcs, LocalDate birthday, JobName jobName, Bank bank, boolean isWorkingAtHome, BankOffice bankOffice, double salaryAmount) {
@@ -40,6 +53,21 @@ public class Employee extends Human {
                 (bankOffice != null ? ("Банковский офис: " + "№" + bankOffice.getId() + " " + bankOffice.getName()) : "Сотрудник не прикреплен к офису банка") + "\n" +
                 (canWithdrawCredit ? "М" : "Не м") + "ожет выдавать кредиты\n" +
                 "Размер зарплаты: " + String.format("%.2f", salaryAmount) + "\n";
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("id", id);
+        jsonObject.addProperty("fcs", fcs);
+        jsonObject.addProperty("jobName", jobName.toString());
+        jsonObject.add("bank", bank.toJson());
+        jsonObject.addProperty("isWorkingAtHome", isWorkingAtHome);
+        jsonObject.addProperty("canWithdrawCredit", canWithdrawCredit);
+        jsonObject.addProperty("salaryAmount", salaryAmount);
+        jsonObject.add("bankOffice", bankOffice.toJson());
+
+        return jsonObject;
     }
 
     public BankOffice getBankOffice() {

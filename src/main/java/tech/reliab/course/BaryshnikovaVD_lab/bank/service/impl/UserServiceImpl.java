@@ -1,12 +1,24 @@
 package tech.reliab.course.BaryshnikovaVD_lab.bank.service.impl;
 
+import com.google.gson.Gson;
+
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.stream.JsonReader;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.entity.*;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.exceptions.PaymentAccountNotFoundException;
+import tech.reliab.course.BaryshnikovaVD_lab.bank.service.BankService;
 import tech.reliab.course.BaryshnikovaVD_lab.bank.service.UserService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static tech.reliab.course.BaryshnikovaVD_lab.bank.utils.Constants.MAX_MONTHLY_INCOME;
 
@@ -152,5 +164,40 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public boolean exportUserAccountsToTxtFile(User user, Bank bank) {
+        try {
+            PrintWriter writer = new PrintWriter("accounts.txt");
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+            List<CreditAccount> creditAccounts = user.getCreditAccounts();
+            List<PaymentAccount> paymentAccounts = user.getPaymentAccounts();
+
+            JsonArray creditAccountsToWrite = new JsonArray();
+            JsonArray paymentAccountsToWrite = new JsonArray();
+
+            int bankId = bank.getId();
+            for (PaymentAccount paymentAccount : paymentAccounts) {
+                if (paymentAccount.getBank().getId() == bankId) {
+                    creditAccountsToWrite.add(paymentAccount.toJson());
+                }
+            }
+
+            for (CreditAccount creditAccount : creditAccounts) {
+                if (creditAccount.getBank().getId() == bankId) {
+                    paymentAccountsToWrite.add(creditAccount.toJson());
+                }
+            }
+
+            writer.println(gson.toJson(creditAccountsToWrite));
+            writer.println(gson.toJson(paymentAccountsToWrite));
+
+            writer.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("Ошибка! Не удалось записать данные в файл. " + e);
+            return false;
+        }
+
+        return true;
+    }
 }

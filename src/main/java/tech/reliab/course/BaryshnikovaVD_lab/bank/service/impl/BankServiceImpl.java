@@ -130,14 +130,31 @@ public class BankServiceImpl implements BankService {
 
         bankUsers.add(user);
         bank.setUsers(bankUsers);
+        user.setBank(bank);
 
+        return true;
+    }
 
-        ArrayList<Bank> userBanks = user.getBanks();
-        if (userBanks == null)
-            userBanks = new ArrayList<>();
+    @Override
+    public boolean deleteUser(Bank bank, User user) {
+        if (bank == null || user == null) {
+            System.out.println("Ошибка! не существует банка или пользователя банка");
+            return false;
+        }
 
-        userBanks.add(bank);
-        user.setBanks(userBanks);
+        user.setBank(null);
+        ArrayList<User> users = bank.getUsers();
+
+        if (users.isEmpty()) {
+            System.out.println("Ошибка! Невозможно удалить пользователя, т.к. за банком не закреплен ни один пользователь");
+            return false;
+        } else {
+            users.remove(user);
+            if (users.isEmpty())
+                bank.setUsers(null);
+            else
+                bank.setUsers(users);
+        }
 
         return true;
     }
@@ -338,6 +355,4 @@ public class BankServiceImpl implements BankService {
 
         return selectedBanks;
     }
-
-
 }
